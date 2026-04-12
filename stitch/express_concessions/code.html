@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Kinetic Stadium - Express Concessions</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&amp;family=Inter:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-tertiary-fixed": "#001443",
+                    "inverse-primary": "#006a71",
+                    "tertiary": "#9cb4fe",
+                    "error": "#ff716c",
+                    "inverse-surface": "#f7f9ff",
+                    "surface-bright": "#242d37",
+                    "surface-container-low": "#0d141b",
+                    "surface-container": "#131a22",
+                    "secondary-fixed-dim": "#ffb194",
+                    "tertiary-container": "#8ea6f0",
+                    "on-error-container": "#ffa8a3",
+                    "on-tertiary": "#143073",
+                    "tertiary-fixed-dim": "#89a1ea",
+                    "secondary-dim": "#ff7439",
+                    "surface": "#090f15",
+                    "tertiary-fixed": "#97aef8",
+                    "surface-container-high": "#182028",
+                    "primary-fixed": "#00eefc",
+                    "on-primary-fixed-variant": "#005e64",
+                    "on-secondary-fixed": "#611e00",
+                    "background": "#090f15",
+                    "on-background": "#e6ebf4",
+                    "surface-container-lowest": "#000000",
+                    "secondary": "#ff7439",
+                    "surface-dim": "#090f15",
+                    "secondary-container": "#a73a00",
+                    "outline": "#70767e",
+                    "primary-container": "#00eefc",
+                    "surface-tint": "#8ff5ff",
+                    "secondary-fixed": "#ffc4af",
+                    "inverse-on-surface": "#50565d",
+                    "on-secondary": "#3f1100",
+                    "on-secondary-fixed-variant": "#903100",
+                    "tertiary-dim": "#849be4",
+                    "on-primary-container": "#005359",
+                    "on-error": "#490006",
+                    "outline-variant": "#424850",
+                    "on-primary": "#005d63",
+                    "primary": "#8ff5ff",
+                    "on-primary-fixed": "#003f43",
+                    "error-dim": "#d7383b",
+                    "on-secondary-container": "#fff6f3",
+                    "surface-container-highest": "#1e272f",
+                    "surface-variant": "#1e272f",
+                    "error-container": "#9f0519",
+                    "on-tertiary-container": "#022568",
+                    "on-surface-variant": "#a6abb4",
+                    "primary-dim": "#00deec",
+                    "on-tertiary-fixed-variant": "#1a3577",
+                    "primary-fixed-dim": "#00deec",
+                    "on-surface": "#e6ebf4"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Lexend"],
+                    "body": ["Inter"],
+                    "label": ["Inter"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .kinetic-gradient {
+            background: linear-gradient(135deg, #8ff5ff 0%, #00eefc 100%);
+        }
+        .glass-panel {
+            background: rgba(30, 39, 47, 0.6);
+            backdrop-filter: blur(24px);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background font-body selection:bg-primary selection:text-on-primary">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 flex justify-between items-center px-6 h-20 bg-slate-900/50 backdrop-blur-xl shadow-[0_0_20px_rgba(143,245,255,0.08)]">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full overflow-hidden border border-primary/20">
+<img class="w-full h-full object-cover" data-alt="close-up portrait of a sporty man with stadium lighting in the background, sharp focus, cinematic atmosphere" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAsg81VRDxsUQ0G0mFHBWsXc0Lz_mJRIZ7rgzn4vXZb_wr3RWjtp54jk09_OQ4o-DQGT8UlVmQSMhttvy8y0HifOLT63gE3r5Vi8EkLdgGonh5cvgODSTGBm3qWPnaiuwogaBK-4ZiI5mwJdAaHgog2D0kNjEP1fayj3b26qEFRbibMgolk7sODHEfR1D7dWWjdsP8hOoo0e9dVQeYwSZ3aL1aWQf21vht7ejDbXCHfmKOgO6wJQqHOevCSP2nkN9aYg5JlVHigKA"/>
+</div>
+<h1 class="text-2xl font-black italic tracking-tighter text-[#8ff5ff] font-headline uppercase">KINETIC STADIUM</h1>
+</div>
+<div class="flex items-center gap-4 text-[#8ff5ff]">
+<button class="material-symbols-outlined hover:text-[#00eefc] transition-colors active:scale-95 duration-200" data-icon="notifications">notifications</button>
+</div>
+</header>
+<main class="pt-24 pb-32 px-6 max-w-7xl mx-auto">
+<!-- Hero Section: Active Order / Recent -->
+<section class="mb-10">
+<h2 class="font-headline text-3xl font-bold tracking-tighter uppercase mb-6 text-on-background">MY RECENT ORDERS</h2>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<!-- Order Card 1 -->
+<div class="bg-surface-container-low p-5 rounded-xl border-l-4 border-secondary flex justify-between items-center group hover:bg-surface-container transition-all duration-300">
+<div class="flex flex-col">
+<span class="font-label text-[10px] tracking-widest text-secondary font-bold uppercase mb-1">COMPLETED • GATE 4A</span>
+<h3 class="font-headline text-xl font-bold text-on-surface">NEON BURGER CO.</h3>
+<p class="text-sm text-on-surface-variant">2x Double Kinetic Burger, 1x Large Fries</p>
+</div>
+<div class="text-right">
+<div class="font-headline text-lg font-bold text-primary mb-1">$34.50</div>
+<button class="text-[10px] font-bold tracking-widest uppercase py-1.5 px-3 rounded-full border border-outline-variant hover:border-primary hover:text-primary transition-colors">REORDER</button>
+</div>
+</div>
+<!-- Order Card 2 -->
+<div class="bg-surface-container-low p-5 rounded-xl flex justify-between items-center group hover:bg-surface-container transition-all duration-300">
+<div class="flex flex-col">
+<span class="font-label text-[10px] tracking-widest text-outline font-bold uppercase mb-1">COMPLETED • SECTOR B</span>
+<h3 class="font-headline text-xl font-bold text-on-surface">VELOCITY BREWS</h3>
+<p class="text-sm text-on-surface-variant">1x Nitro Cold Brew, 1x Energy Glazed Donut</p>
+</div>
+<div class="text-right">
+<div class="font-headline text-lg font-bold text-primary mb-1">$12.00</div>
+<button class="text-[10px] font-bold tracking-widest uppercase py-1.5 px-3 rounded-full border border-outline-variant hover:border-primary hover:text-primary transition-colors">REORDER</button>
+</div>
+</div>
+</div>
+</section>
+<!-- Vendors Grid -->
+<section class="mb-12">
+<div class="flex items-end justify-between mb-8">
+<div>
+<h2 class="font-headline text-4xl font-black tracking-tighter uppercase leading-none">VENDORS</h2>
+<p class="text-primary font-label text-sm tracking-wide mt-2 uppercase">Live Wait Times • Express Pickup Available</p>
+</div>
+<div class="flex gap-2">
+<button class="bg-surface-container-highest px-4 py-2 rounded-full text-xs font-bold uppercase tracking-widest border border-primary/10">All</button>
+<button class="px-4 py-2 rounded-full text-xs font-bold uppercase tracking-widest text-on-surface-variant">Food</button>
+<button class="px-4 py-2 rounded-full text-xs font-bold uppercase tracking-widest text-on-surface-variant">Drinks</button>
+</div>
+</div>
+<!-- Bento Grid of Vendors -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<!-- Main Featured Vendor -->
+<div class="md:col-span-2 relative group overflow-hidden rounded-xl bg-surface-container-low h-[400px]">
+<img class="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:scale-105 transition-transform duration-700" data-alt="gourmet double cheeseburger with melting cheese and fresh vegetables on a dark textured background, high contrast editorial food photography" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCIC7GCuupU-ERe-RmAY295kbVDjEELPUARUzxo59xQOKQgQq5tt2OpfQ7w3OM6x4alCLsR6Ey1dAHYVaGoYnAoAeBRSoH_2RegUyXgzlrZsAQopO-43PfgawLPBLf3QNRRgcqrXW0paJnzxXY9lN7GitXCQ0dJdsa-OKrktNl0U1XEFAxd9unyQEdcQ2rpLcGR_haquVF4PWWQlVTkvfahXdRwnX7mfENj8uGhWgHh5kbP6Vr0WgzXDQwp8ev5ItuoAq1uroqoqA"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent"></div>
+<div class="absolute bottom-0 left-0 p-8 w-full">
+<div class="flex justify-between items-end">
+<div>
+<div class="inline-flex items-center gap-2 bg-secondary/90 backdrop-blur px-3 py-1 rounded-full mb-4">
+<span class="material-symbols-outlined text-[14px] text-on-secondary" style="font-variation-settings: 'FILL' 1;">timer</span>
+<span class="text-[10px] font-black text-on-secondary uppercase tracking-widest">5 MIN WAIT</span>
+</div>
+<h3 class="font-headline text-5xl font-black tracking-tighter uppercase text-white mb-2 italic">NEON BURGER CO.</h3>
+<p class="text-on-surface-variant max-w-md">The stadium's signature charcoal-bun burgers with electric-blue garlic aioli.</p>
+</div>
+<button class="kinetic-gradient text-on-primary-container px-8 py-4 rounded-xl font-headline font-black uppercase italic tracking-tighter text-xl active:scale-95 transition-transform">SELECT</button>
+</div>
+</div>
+</div>
+<!-- Secondary Vendor 1 -->
+<div class="bg-surface-container-low rounded-xl p-6 flex flex-col justify-between group hover:bg-surface-container transition-colors">
+<div>
+<div class="flex justify-between items-start mb-6">
+<div class="w-14 h-14 bg-surface-container-highest rounded-xl flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-3xl">local_pizza</span>
+</div>
+<div class="text-right">
+<div class="text-[10px] font-black text-outline uppercase tracking-widest">WAIT TIME</div>
+<div class="text-xl font-headline font-bold text-tertiary">12 MIN</div>
+</div>
+</div>
+<h3 class="font-headline text-2xl font-bold tracking-tighter uppercase mb-2">APEX PIZZA</h3>
+<p class="text-sm text-on-surface-variant">Stone-fired thin crust with volcanic spicy pepperoni.</p>
+</div>
+<button class="mt-6 w-full border border-primary/20 hover:border-primary text-primary py-3 rounded-xl text-xs font-bold uppercase tracking-widest transition-colors">VIEW MENU</button>
+</div>
+<!-- Secondary Vendor 2 -->
+<div class="bg-surface-container-low rounded-xl p-6 flex flex-col justify-between group hover:bg-surface-container transition-colors">
+<div>
+<div class="flex justify-between items-start mb-6">
+<div class="w-14 h-14 bg-surface-container-highest rounded-xl flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-3xl">liquor</span>
+</div>
+<div class="text-right">
+<div class="text-[10px] font-black text-outline uppercase tracking-widest">WAIT TIME</div>
+<div class="text-xl font-headline font-bold text-primary">2 MIN</div>
+</div>
+</div>
+<h3 class="font-headline text-2xl font-bold tracking-tighter uppercase mb-2">VELOCITY BREWS</h3>
+<p class="text-sm text-on-surface-variant">Craft beers and artisanal nitrogen-infused refreshments.</p>
+</div>
+<button class="mt-6 w-full border border-primary/20 hover:border-primary text-primary py-3 rounded-xl text-xs font-bold uppercase tracking-widest transition-colors">VIEW MENU</button>
+</div>
+<!-- Secondary Vendor 3 -->
+<div class="bg-surface-container-low rounded-xl p-6 flex flex-col justify-between group hover:bg-surface-container transition-colors">
+<div>
+<div class="flex justify-between items-start mb-6">
+<div class="w-14 h-14 bg-surface-container-highest rounded-xl flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-3xl">icecream</span>
+</div>
+<div class="text-right">
+<div class="text-[10px] font-black text-outline uppercase tracking-widest">WAIT TIME</div>
+<div class="text-xl font-headline font-bold text-secondary">25 MIN</div>
+</div>
+</div>
+<h3 class="font-headline text-2xl font-bold tracking-tighter uppercase mb-2">ZERO DEGREE</h3>
+<p class="text-sm text-on-surface-variant">Liquid nitrogen flash-frozen treats and dairy-free peaks.</p>
+</div>
+<button class="mt-6 w-full border border-primary/20 hover:border-primary text-primary py-3 rounded-xl text-xs font-bold uppercase tracking-widest transition-colors">VIEW MENU</button>
+</div>
+<!-- Secondary Vendor 4 -->
+<div class="bg-surface-container-low rounded-xl p-6 flex flex-col justify-between group hover:bg-surface-container transition-colors">
+<div>
+<div class="flex justify-between items-start mb-6">
+<div class="w-14 h-14 bg-surface-container-highest rounded-xl flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-3xl">tapas</span>
+</div>
+<div class="text-right">
+<div class="text-[10px] font-black text-outline uppercase tracking-widest">WAIT TIME</div>
+<div class="text-xl font-headline font-bold text-primary">8 MIN</div>
+</div>
+</div>
+<h3 class="font-headline text-2xl font-bold tracking-tighter uppercase mb-2">TURBO TACO</h3>
+<p class="text-sm text-on-surface-variant">Street tacos served at racing speed. Try the Mach 1 Salsa.</p>
+</div>
+<button class="mt-6 w-full border border-primary/20 hover:border-primary text-primary py-3 rounded-xl text-xs font-bold uppercase tracking-widest transition-colors">VIEW MENU</button>
+</div>
+</div>
+</section>
+<!-- Menu Section (Contextual for Selection) -->
+<section class="bg-surface-container rounded-[2rem] p-8 border border-primary/5 shadow-2xl mb-12">
+<div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-10">
+<div class="flex items-center gap-6">
+<div class="w-24 h-24 rounded-2xl overflow-hidden bg-background">
+<img class="w-full h-full object-cover" data-alt="vibrant burger stand logo on a dark wall with neon blue lighting, urban aesthetic, futuristic sports venue vibes" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDEHMYSZNLxTEe5HaiOiHekaHYe9BGvpkEf3c18OBlFdPRFjmpqNTSQHBtKYsRpvSkxVeVon0y9SP8zxztolWwppIcoanOg5_MQbRjPgKL1-XVjO0BGTc4Gu2CkgpwG1iz71yHFXTQwhCEnLOmFWYbK60LPuiE1Sldx5UuJ6drXZv06sryPQFjV2Qo0cp7U4RGNDorObkpab6a3CZmZRd7x0rB664eqfAXR9vfRvIrTRwUhS_KrJlRG9eIPGiMSgm22K-86CkkmOw"/>
+</div>
+<div>
+<h2 class="font-headline text-4xl font-black italic tracking-tighter uppercase">NEON BURGER MENU</h2>
+<div class="flex gap-4 mt-2">
+<span class="text-secondary text-xs font-bold tracking-widest uppercase">FASTEST OPTION</span>
+<span class="text-on-surface-variant text-xs font-bold tracking-widest uppercase">GATE 4A • CONCOURSE LEVEL</span>
+</div>
+</div>
+</div>
+<div class="flex flex-col items-end">
+<div class="bg-secondary/10 px-4 py-2 rounded-xl flex items-center gap-3">
+<span class="material-symbols-outlined text-secondary">flash_on</span>
+<span class="text-secondary font-black tracking-widest uppercase text-sm">MOBILE ORDER ACTIVE</span>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+<!-- Menu Item 1 -->
+<div class="bg-surface-container-highest p-6 rounded-2xl flex flex-col justify-between border border-transparent hover:border-primary/20 transition-all group">
+<div>
+<div class="flex justify-between items-start mb-4">
+<h4 class="font-headline text-xl font-bold uppercase tracking-tighter">KINETIC STACK</h4>
+<span class="font-headline text-xl font-black text-primary">$18</span>
+</div>
+<p class="text-sm text-on-surface-variant mb-6">Double beef, blue cheese, caramelized onions, and neon glaze on a brioche bun.</p>
+</div>
+<button class="kinetic-gradient text-on-primary-container w-full py-4 rounded-xl font-headline font-black uppercase italic tracking-tighter flex items-center justify-center gap-2 group-hover:scale-[1.02] transition-transform">
+<span class="material-symbols-outlined text-lg">shopping_cart</span>
+                        ADD TO ORDER
+                    </button>
+</div>
+<!-- Menu Item 2 -->
+<div class="bg-surface-container-highest p-6 rounded-2xl flex flex-col justify-between border border-transparent hover:border-primary/20 transition-all group">
+<div>
+<div class="flex justify-between items-start mb-4">
+<h4 class="font-headline text-xl font-bold uppercase tracking-tighter">CIRCUIT FRIES</h4>
+<span class="font-headline text-xl font-black text-primary">$9</span>
+</div>
+<p class="text-sm text-on-surface-variant mb-6">Seasoned waffle fries with spicy cheese drizzle and pickled jalapeños.</p>
+</div>
+<button class="kinetic-gradient text-on-primary-container w-full py-4 rounded-xl font-headline font-black uppercase italic tracking-tighter flex items-center justify-center gap-2 group-hover:scale-[1.02] transition-transform">
+<span class="material-symbols-outlined text-lg">shopping_cart</span>
+                        ADD TO ORDER
+                    </button>
+</div>
+<!-- Menu Item 3 -->
+<div class="bg-surface-container-highest p-6 rounded-2xl flex flex-col justify-between border border-transparent hover:border-primary/20 transition-all group">
+<div>
+<div class="flex justify-between items-start mb-4">
+<h4 class="font-headline text-xl font-bold uppercase tracking-tighter">GLOW SHAKE</h4>
+<span class="font-headline text-xl font-black text-primary">$11</span>
+</div>
+<p class="text-sm text-on-surface-variant mb-6">Vanilla bean shake with edible neon sprinkles and blue raspberry swirl.</p>
+</div>
+<button class="kinetic-gradient text-on-primary-container w-full py-4 rounded-xl font-headline font-black uppercase italic tracking-tighter flex items-center justify-center gap-2 group-hover:scale-[1.02] transition-transform">
+<span class="material-symbols-outlined text-lg">shopping_cart</span>
+                        ADD TO ORDER
+                    </button>
+</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-6 pt-3 bg-[#090f15]/80 dark:bg-slate-950/80 rounded-t-[1.5rem] backdrop-blur-2xl border-t border-cyan-500/10 shadow-[0_-4px_24px_rgba(0,0,0,0.4)]">
+<a class="flex flex-col items-center justify-center text-slate-500 py-2 hover:text-cyan-300 transition-all active:scale-90" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-lexend text-[10px] font-bold tracking-widest mt-1">DASHBOARD</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-500 py-2 hover:text-cyan-300 transition-all active:scale-90" href="#">
+<span class="material-symbols-outlined" data-icon="map">map</span>
+<span class="font-lexend text-[10px] font-bold tracking-widest mt-1">CROWD MAP</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-gradient-to-br from-[#8ff5ff] to-[#00eefc] text-[#090f15] rounded-[1.5rem] px-5 py-2 scale-105 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="fastfood" style="font-variation-settings: 'FILL' 1;">fastfood</span>
+<span class="font-lexend text-[10px] font-bold tracking-widest mt-1">CONCESSIONS</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-500 py-2 hover:text-cyan-300 transition-all active:scale-90" href="#">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+<span class="font-lexend text-[10px] font-bold tracking-widest mt-1">FRIENDS</span>
+</a>
+</nav>
+</body></html>

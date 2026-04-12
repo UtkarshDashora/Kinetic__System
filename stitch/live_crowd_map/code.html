@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Kinetic Stadium - Live Crowd Map</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;700;900&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary-fixed": "#001443",
+                        "inverse-primary": "#006a71",
+                        "tertiary": "#9cb4fe",
+                        "error": "#ff716c",
+                        "inverse-surface": "#f7f9ff",
+                        "surface-bright": "#242d37",
+                        "surface-container-low": "#0d141b",
+                        "surface-container": "#131a22",
+                        "secondary-fixed-dim": "#ffb194",
+                        "tertiary-container": "#8ea6f0",
+                        "on-error-container": "#ffa8a3",
+                        "on-tertiary": "#143073",
+                        "tertiary-fixed-dim": "#89a1ea",
+                        "secondary-dim": "#ff7439",
+                        "surface": "#090f15",
+                        "tertiary-fixed": "#97aef8",
+                        "surface-container-high": "#182028",
+                        "primary-fixed": "#00eefc",
+                        "on-primary-fixed-variant": "#005e64",
+                        "on-secondary-fixed": "#611e00",
+                        "background": "#090f15",
+                        "on-background": "#e6ebf4",
+                        "surface-container-lowest": "#000000",
+                        "secondary": "#ff7439",
+                        "surface-dim": "#090f15",
+                        "secondary-container": "#a73a00",
+                        "outline": "#70767e",
+                        "primary-container": "#00eefc",
+                        "surface-tint": "#8ff5ff",
+                        "secondary-fixed": "#ffc4af",
+                        "inverse-on-surface": "#50565d",
+                        "on-secondary": "#3f1100",
+                        "on-secondary-fixed-variant": "#903100",
+                        "tertiary-dim": "#849be4",
+                        "on-primary-container": "#005359",
+                        "on-error": "#490006",
+                        "outline-variant": "#424850",
+                        "on-primary": "#005d63",
+                        "primary": "#8ff5ff",
+                        "on-primary-fixed": "#003f43",
+                        "error-dim": "#d7383b",
+                        "on-secondary-container": "#fff6f3",
+                        "surface-container-highest": "#1e272f",
+                        "surface-variant": "#1e272f",
+                        "error-container": "#9f0519",
+                        "on-tertiary-container": "#022568",
+                        "on-surface-variant": "#a6abb4",
+                        "primary-dim": "#00deec",
+                        "on-tertiary-fixed-variant": "#1a3577",
+                        "primary-fixed-dim": "#00deec",
+                        "on-surface": "#e6ebf4"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Lexend"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .map-perspective {
+            perspective: 1200px;
+        }
+        .isometric-card {
+            transform: rotateX(25deg) rotateY(-15deg) rotateZ(5deg);
+        }
+        .heat-pulse {
+            animation: pulse-glow 3s infinite ease-in-out;
+        }
+        @keyframes pulse-glow {
+            0%, 100% { opacity: 0.4; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(1.1); }
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface font-body selection:bg-primary selection:text-on-primary">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 flex justify-between items-center px-6 h-20 bg-[#090f15]/50 backdrop-blur-xl shadow-[0_0_20px_rgba(143,245,255,0.08)]">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full overflow-hidden border border-primary/20">
+<img alt="user profile picture" class="w-full h-full object-cover" data-alt="close-up portrait of a young man with a slight smile in soft studio lighting against a dark background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD65ucnFwPl5CYtfgHwN8pPSJYc01EmfmqwyTjnIjScm51xGwwN_DcYQqtcDHgHQrYUcDqnSFRRvkuCtOx2bKTFurT-XYU9EFiAPS6v9_F1ornyFXZKH6F_JT2O_dN-9q9DkM5ALa6jD5SKg6tqV1tQEJzmKK9ScEsO0rVg8MrwUGkLgyH8vPx6XfkALJVpzsx_KpgfHyAazr-82MnL1h2N_yT4vFXJTGO-tVa6YgrsSMWwo4hsS6yoF0J9247SvL3OWUQYZz_9iA"/>
+</div>
+<h1 class="font-headline tracking-tighter uppercase font-bold text-2xl italic text-[#8ff5ff]">KINETIC STADIUM</h1>
+</div>
+<div class="hidden md:flex items-center gap-8">
+<nav class="flex items-center gap-6">
+<a class="font-headline text-sm tracking-widest text-slate-400 hover:text-[#00eefc] transition-colors active:scale-95 duration-200" href="#">DASHBOARD</a>
+<a class="font-headline text-sm tracking-widest text-[#8ff5ff] hover:text-[#00eefc] transition-colors active:scale-95 duration-200" href="#">CROWD MAP</a>
+<a class="font-headline text-sm tracking-widest text-slate-400 hover:text-[#00eefc] transition-colors active:scale-95 duration-200" href="#">CONCESSIONS</a>
+<a class="font-headline text-sm tracking-widest text-slate-400 hover:text-[#00eefc] transition-colors active:scale-95 duration-200" href="#">FRIENDS</a>
+</nav>
+</div>
+<button class="text-[#8ff5ff] active:scale-95 duration-200">
+<span class="material-symbols-outlined text-3xl">notifications</span>
+</button>
+</header>
+<main class="pt-24 pb-32 px-4 md:px-8 min-h-screen">
+<div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-6">
+<!-- Left Sidebar Controls -->
+<div class="lg:col-span-3 flex flex-col gap-6">
+<!-- Search & Filters -->
+<section class="bg-surface-container-low p-6 rounded-xl space-y-6">
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline">search</span>
+<input class="w-full bg-surface-container-highest border-none rounded-xl py-3 pl-10 pr-4 text-sm focus:ring-1 focus:ring-primary placeholder:text-outline" placeholder="Search amenities..." type="text"/>
+</div>
+<div class="space-y-4">
+<h3 class="font-headline text-xs tracking-widest uppercase text-outline">Quick Filters</h3>
+<div class="flex flex-wrap gap-2">
+<button class="flex items-center gap-2 px-4 py-2 bg-secondary-container text-on-secondary-container rounded-full text-xs font-bold transition-transform active:scale-90">
+<span class="material-symbols-outlined text-sm">wc</span> RESTROOMS
+                            </button>
+<button class="flex items-center gap-2 px-4 py-2 bg-surface-container-highest text-on-surface rounded-full text-xs font-bold hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined text-sm">fastfood</span> FOOD
+                            </button>
+<button class="flex items-center gap-2 px-4 py-2 bg-surface-container-highest text-on-surface rounded-full text-xs font-bold hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined text-sm">local_bar</span> DRINKS
+                            </button>
+<button class="flex items-center gap-2 px-4 py-2 bg-surface-container-highest text-on-surface rounded-full text-xs font-bold hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined text-sm">medical_services</span> FIRST AID
+                            </button>
+</div>
+</div>
+<div class="pt-4 border-t border-outline-variant/10">
+<div class="flex justify-between items-center mb-4">
+<span class="text-xs font-bold tracking-wider text-outline uppercase">Live Status</span>
+<span class="flex items-center gap-1.5 text-[10px] bg-emerald-500/10 text-emerald-400 px-2 py-0.5 rounded-full font-bold">
+<span class="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse"></span> LIVE
+                            </span>
+</div>
+<div class="space-y-3">
+<div class="flex items-center justify-between">
+<span class="text-sm text-on-surface-variant">North Concourse</span>
+<span class="text-sm font-bold text-error">HEAVY</span>
+</div>
+<div class="w-full h-1 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-error w-[85%]"></div>
+</div>
+<div class="flex items-center justify-between">
+<span class="text-sm text-on-surface-variant">Gate 4 Plaza</span>
+<span class="text-sm font-bold text-primary">LIGHT</span>
+</div>
+<div class="w-full h-1 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-primary w-[20%]"></div>
+</div>
+</div>
+</div>
+</section>
+<!-- Navigation Card -->
+<section class="bg-gradient-to-br from-primary/10 to-transparent p-6 rounded-xl border border-primary/10 relative overflow-hidden group">
+<div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+<span class="material-symbols-outlined text-6xl" style="font-variation-settings: 'FILL' 1;">near_me</span>
+</div>
+<h3 class="font-headline text-lg font-bold mb-1 text-primary">FASTEST ROUTE</h3>
+<p class="text-xs text-on-surface-variant mb-6 uppercase tracking-wider">To: Section 302, Row G</p>
+<div class="flex items-center gap-4 mb-4">
+<div class="bg-primary-container text-on-primary-container w-10 h-10 rounded-xl flex items-center justify-center font-black">
+                            4m
+                        </div>
+<div>
+<p class="text-sm font-bold">Via Level 2 Express</p>
+<p class="text-[10px] text-on-surface-variant">Avoids Concession Cluster B</p>
+</div>
+</div>
+<button class="w-full py-3 bg-gradient-to-br from-primary to-primary-container text-on-primary rounded-xl font-headline font-bold text-sm tracking-widest transition-transform active:scale-95">
+                        START NAVIGATION
+                    </button>
+</section>
+</div>
+<!-- Central Interactive Map Canvas -->
+<div class="lg:col-span-9 relative bg-surface-container-low rounded-[2rem] overflow-hidden shadow-2xl min-h-[600px] border border-white/5">
+<!-- Isometric Map Placeholder -->
+<div class="absolute inset-0 flex items-center justify-center bg-[#0d141b]">
+<div class="map-perspective relative w-full h-full flex items-center justify-center">
+<div class="isometric-card relative w-[800px] h-[500px]">
+<!-- Main Stadium Base -->
+<div class="absolute inset-0 bg-surface-container-high rounded-[4rem] shadow-[0_40px_100px_rgba(0,0,0,0.6)] flex items-center justify-center overflow-hidden">
+<img alt="stylized architectural floor plan" class="w-full h-full object-cover opacity-20 scale-150" data-alt="high-angle architectural rendering of a modern stadium floor plan with glowing cyan circuit lines and dark metallic surfaces" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDg3g7cMz-vAO2OUrISH3gBzOua0o9aeojHQpWE6HG5rwA1oxHXnEHQO0sReqVrtrDmhp5J6yYf3Gnmr5hhg5dJeyxivfSe6ItZdJH3bFGkBsKr4gvLlUcbB5dIHUO030AjIEUQHfGEVCpIDz24sLNb7wG_MC35avsK0cHxHdDAMjyEjdYGBy5Oo9anTWU4noiwSXD_nat-LoEXYKjHV9Kox6svBv0vNTATwB2jlNHrB87P2TOB17uc9Wa6X3qjDAX-MO0JvZNt6w"/>
+<!-- Heat Map Overlays -->
+<div class="absolute top-1/4 left-1/3 w-32 h-32 bg-error/40 blur-[40px] heat-pulse rounded-full"></div>
+<div class="absolute bottom-1/4 right-1/4 w-48 h-48 bg-secondary/30 blur-[60px] heat-pulse rounded-full"></div>
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[200px] bg-primary/5 blur-[80px] rounded-full"></div>
+</div>
+<!-- Path Overlay -->
+<svg class="absolute inset-0 w-full h-full pointer-events-none" viewbox="0 0 800 500">
+<path d="M 100 400 Q 250 380 400 300 T 700 150" fill="none" opacity="0.8" stroke="#8ff5ff" stroke-dasharray="12 12" stroke-linecap="round" stroke-width="6">
+<animate attributename="stroke-dashoffset" dur="5s" from="100" repeatcount="indefinite" to="0"></animate>
+</path>
+</svg>
+<!-- Map Markers -->
+<!-- User Location -->
+<div class="absolute left-[100px] top-[400px] -translate-x-1/2 -translate-y-1/2 group">
+<div class="w-8 h-8 bg-primary rounded-full flex items-center justify-center shadow-[0_0_20px_#8ff5ff]">
+<span class="material-symbols-outlined text-on-primary text-sm" style="font-variation-settings: 'FILL' 1;">person</span>
+</div>
+<div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 bg-surface px-2 py-1 rounded text-[10px] font-bold border border-primary/20 whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity">
+                                    YOU
+                                </div>
+</div>
+<!-- Concession Marker -->
+<div class="absolute left-[400px] top-[300px] -translate-x-1/2 -translate-y-1/2 group cursor-pointer">
+<div class="w-10 h-10 bg-surface-container-highest border border-white/10 rounded-xl flex items-center justify-center hover:scale-110 transition-transform shadow-xl">
+<span class="material-symbols-outlined text-secondary">fastfood</span>
+</div>
+<div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 bg-surface-container-high p-3 rounded-xl border border-white/5 shadow-2xl min-w-[160px] opacity-0 group-hover:opacity-100 transition-opacity">
+<p class="text-xs font-bold text-on-surface">GRID IRON GRILL</p>
+<div class="flex items-center gap-1 mt-1">
+<span class="text-[10px] text-error font-black uppercase">Busy</span>
+<span class="text-[10px] text-on-surface-variant">• 12m wait</span>
+</div>
+</div>
+</div>
+<!-- Restroom Marker -->
+<div class="absolute left-[600px] top-[220px] -translate-x-1/2 -translate-y-1/2 group cursor-pointer">
+<div class="w-8 h-8 bg-surface-container-highest border border-white/10 rounded-full flex items-center justify-center hover:scale-110 transition-transform shadow-xl">
+<span class="material-symbols-outlined text-primary text-lg">wc</span>
+</div>
+</div>
+<!-- Destination Marker -->
+<div class="absolute left-[700px] top-[150px] -translate-x-1/2 -translate-y-1/2">
+<div class="w-12 h-12 bg-primary-container text-on-primary-container rounded-full flex items-center justify-center shadow-[0_0_30px_rgba(0,238,252,0.4)] animate-bounce">
+<span class="material-symbols-outlined text-2xl" style="font-variation-settings: 'FILL' 1;">location_on</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Overlay Controls -->
+<div class="absolute top-6 right-6 flex flex-col gap-2">
+<button class="w-12 h-12 bg-surface-container-highest/80 backdrop-blur-md rounded-xl flex items-center justify-center text-on-surface hover:bg-primary hover:text-on-primary transition-all active:scale-90">
+<span class="material-symbols-outlined">add</span>
+</button>
+<button class="w-12 h-12 bg-surface-container-highest/80 backdrop-blur-md rounded-xl flex items-center justify-center text-on-surface hover:bg-primary hover:text-on-primary transition-all active:scale-90">
+<span class="material-symbols-outlined">remove</span>
+</button>
+<button class="w-12 h-12 bg-surface-container-highest/80 backdrop-blur-md rounded-xl flex items-center justify-center text-on-surface hover:bg-primary hover:text-on-primary transition-all active:scale-90 mt-4">
+<span class="material-symbols-outlined">layers</span>
+</button>
+</div>
+<!-- Live Legend Overlay -->
+<div class="absolute bottom-6 left-6 p-4 bg-surface-container/60 backdrop-blur-xl rounded-2xl border border-white/5 flex flex-col gap-3">
+<h4 class="text-[10px] font-headline font-black tracking-widest text-outline uppercase">Density Legend</h4>
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-2">
+<div class="w-3 h-3 rounded-full bg-primary shadow-[0_0_8px_#8ff5ff]"></div>
+<span class="text-[10px] font-bold">CLEAR</span>
+</div>
+<div class="flex items-center gap-2">
+<div class="w-3 h-3 rounded-full bg-secondary shadow-[0_0_8px_#ff7439]"></div>
+<span class="text-[10px] font-bold">MODERATE</span>
+</div>
+<div class="flex items-center gap-2">
+<div class="w-3 h-3 rounded-full bg-error shadow-[0_0_8px_#ff716c]"></div>
+<span class="text-[10px] font-bold">CONGESTED</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-6 pt-3 bg-[#090f15]/80 backdrop-blur-2xl border-t border-cyan-500/10 shadow-[0_-4px_24px_rgba(0,0,0,0.4)]">
+<div class="flex flex-col items-center justify-center text-slate-500 py-2 hover:text-cyan-300 transition-all active:scale-90">
+<span class="material-symbols-outlined mb-1">dashboard</span>
+<span class="font-lexend text-[10px] font-bold tracking-widest uppercase">DASHBOARD</span>
+</div>
+<div class="flex flex-col items-center justify-center bg-gradient-to-br from-[#8ff5ff] to-[#00eefc] text-[#090f15] rounded-[1.5rem] px-5 py-2 scale-105 shadow-[0_4px_15px_rgba(143,245,255,0.3)]">
+<span class="material-symbols-outlined mb-0.5">map</span>
+<span class="font-lexend text-[10px] font-bold tracking-widest uppercase">CROWD MAP</span>
+</div>
+<div class="flex flex-col items-center justify-center text-slate-500 py-2 hover:text-cyan-300 transition-all active:scale-90">
+<span class="material-symbols-outlined mb-1">fastfood</span>
+<span class="font-lexend text-[10px] font-bold tracking-widest uppercase">CONCESSIONS</span>
+</div>
+<div class="flex flex-col items-center justify-center text-slate-500 py-2 hover:text-cyan-300 transition-all active:scale-90">
+<span class="material-symbols-outlined mb-1">group</span>
+<span class="font-lexend text-[10px] font-bold tracking-widest uppercase">FRIENDS</span>
+</div>
+</nav>
+<!-- NavigationDrawer (Mobile Only Triggered by logic - shown for completeness) -->
+<aside class="hidden fixed inset-y-0 left-0 z-[60] flex-col p-6 bg-[#0d141b] w-80 rounded-r-[1.5rem] shadow-2xl shadow-cyan-900/20">
+<div class="mb-8 flex items-center gap-4">
+<div class="w-12 h-12 rounded-full overflow-hidden border-2 border-primary">
+<img alt="user avatar" class="w-full h-full object-cover" data-alt="close-up portrait of a young man with a slight smile in soft studio lighting against a dark background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuChjrBQEcmdVHf_01sYpRo_dAxf2_eIJfW_1EslYFPHKwlBhp5cR5th3Oq1zCNmhpMldbsBkekZnkMV0QS6mw4BWJMfEVTDWJctqADO9IRbik74Q86z90CUWaLDNwERc7X8GhGtwgawZDS3_0hohy7btuAPkgKgw3fBZEAnfppB9EjCey-wpfcCFjx8Yj1q7AKHo1QuVy5XikmN5gAGGIxpS_9hYDYi-T5wkAAd4u6CiU2OrNaKRRVzMkeSXXiCnZD1rqbYlyfuuw"/>
+</div>
+<div>
+<h4 class="font-headline font-black text-[#8ff5ff]">FAN_4829</h4>
+<p class="text-[10px] tracking-widest text-slate-400">PLATINUM MEMBER</p>
+<p class="text-[10px] font-bold text-secondary">GATE 4A</p>
+</div>
+</div>
+<nav class="flex-1 space-y-2">
+<a class="flex items-center gap-4 p-4 text-slate-400 font-lexend uppercase hover:pl-6 transition-all duration-300 rounded-xl" href="#">
+<span class="material-symbols-outlined">warning</span> EMERGENCY ALERT
+            </a>
+<a class="flex items-center gap-4 p-4 bg-orange-500/10 text-[#ff7439] border-l-4 border-[#ff7439] font-lexend uppercase hover:pl-6 transition-all duration-300" href="#">
+<span class="material-symbols-outlined">explore</span> VENUE MAP
+            </a>
+<a class="flex items-center gap-4 p-4 text-slate-400 font-lexend uppercase hover:pl-6 transition-all duration-300 rounded-xl" href="#">
+<span class="material-symbols-outlined">confirmation_number</span> MY TICKETS
+            </a>
+<a class="flex items-center gap-4 p-4 text-slate-400 font-lexend uppercase hover:pl-6 transition-all duration-300 rounded-xl" href="#">
+<span class="material-symbols-outlined">receipt_long</span> ORDER HISTORY
+            </a>
+<a class="flex items-center gap-4 p-4 text-slate-400 font-lexend uppercase hover:pl-6 transition-all duration-300 rounded-xl" href="#">
+<span class="material-symbols-outlined">settings</span> SETTINGS
+            </a>
+</nav>
+</aside>
+</body></html>

@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Kinetic Stadium - Smart Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;700;800;900&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary-fixed": "#001443",
+                        "inverse-primary": "#006a71",
+                        "tertiary": "#9cb4fe",
+                        "error": "#ff716c",
+                        "inverse-surface": "#f7f9ff",
+                        "surface-bright": "#242d37",
+                        "surface-container-low": "#0d141b",
+                        "surface-container": "#131a22",
+                        "secondary-fixed-dim": "#ffb194",
+                        "tertiary-container": "#8ea6f0",
+                        "on-error-container": "#ffa8a3",
+                        "on-tertiary": "#143073",
+                        "tertiary-fixed-dim": "#89a1ea",
+                        "secondary-dim": "#ff7439",
+                        "surface": "#090f15",
+                        "tertiary-fixed": "#97aef8",
+                        "surface-container-high": "#182028",
+                        "primary-fixed": "#00eefc",
+                        "on-primary-fixed-variant": "#005e64",
+                        "on-secondary-fixed": "#611e00",
+                        "background": "#090f15",
+                        "on-background": "#e6ebf4",
+                        "surface-container-lowest": "#000000",
+                        "secondary": "#ff7439",
+                        "surface-dim": "#090f15",
+                        "secondary-container": "#a73a00",
+                        "outline": "#70767e",
+                        "primary-container": "#00eefc",
+                        "surface-tint": "#8ff5ff",
+                        "secondary-fixed": "#ffc4af",
+                        "inverse-on-surface": "#50565d",
+                        "on-secondary": "#3f1100",
+                        "on-secondary-fixed-variant": "#903100",
+                        "tertiary-dim": "#849be4",
+                        "on-primary-container": "#005359",
+                        "on-error": "#490006",
+                        "outline-variant": "#424850",
+                        "on-primary": "#005d63",
+                        "primary": "#8ff5ff",
+                        "on-primary-fixed": "#003f43",
+                        "error-dim": "#d7383b",
+                        "on-secondary-container": "#fff6f3",
+                        "surface-container-highest": "#1e272f",
+                        "surface-variant": "#1e272f",
+                        "error-container": "#9f0519",
+                        "on-tertiary-container": "#022568",
+                        "on-surface-variant": "#a6abb4",
+                        "primary-dim": "#00deec",
+                        "on-tertiary-fixed-variant": "#1a3577",
+                        "primary-fixed-dim": "#00deec",
+                        "on-surface": "#e6ebf4"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Lexend"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .glass-card {
+            background: rgba(30, 39, 47, 0.6);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+        }
+        .kinetic-gradient {
+            background: linear-gradient(135deg, #8ff5ff 0%, #00eefc 100%);
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background font-body selection:bg-primary selection:text-on-primary">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 flex justify-between items-center px-6 h-20 bg-slate-900/50 backdrop-blur-xl shadow-[0_0_20px_rgba(143,245,255,0.08)]">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full border-2 border-primary/30 overflow-hidden">
+<img alt="user profile picture" class="w-full h-full object-cover" data-alt="close up professional portrait of a sports fan with stadium lights reflected in background, cinematic photography style" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCAkCxNmLamq3a4ZmEbBPlhHpV4Oo6J_8BH8rSZpLf9MMjL0Zjaal8i-XkePH2LrDiEX0enP94jGv_3Wll9wMr0IzHdeThp3eX56-_ljVh-PT2eMQ2vvTvR78IsO9LlSuBlkq-DQmXi4W45kqnn15IGRP0NGjrfprhC1CCdeThU7WznjGnD1puubttFmeQxIrcrPRixY4yw7ev29JvF_Bu69QN986E0INqE62MdVgJXSoiciRHsjJASswEFMVDFpWM4C_Q6aAeNeg"/>
+</div>
+<h1 class="text-2xl font-black italic tracking-tighter text-[#8ff5ff] font-headline uppercase">KINETIC STADIUM</h1>
+</div>
+<div class="flex items-center gap-6">
+<nav class="hidden md:flex gap-8 font-headline text-sm font-bold tracking-widest">
+<a class="text-[#8ff5ff] hover:text-[#00eefc] transition-colors" href="#">DASHBOARD</a>
+<a class="text-slate-400 hover:text-[#00eefc] transition-colors" href="#">CROWD MAP</a>
+<a class="text-slate-400 hover:text-[#00eefc] transition-colors" href="#">CONCESSIONS</a>
+<a class="text-slate-400 hover:text-[#00eefc] transition-colors" href="#">FRIENDS</a>
+</nav>
+<button class="material-symbols-outlined text-slate-400 hover:text-[#00eefc] transition-colors active:scale-95 duration-200" data-icon="notifications">notifications</button>
+</div>
+</header>
+<main class="pt-28 pb-32 px-6 max-w-7xl mx-auto space-y-8">
+<!-- Hero Section: Crowd Alert & Countdown -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+<!-- Real-time Crowd Alert -->
+<div class="lg:col-span-8 group relative overflow-hidden rounded-xl bg-surface-container-low p-1">
+<div class="absolute inset-0 bg-gradient-to-r from-secondary/20 to-transparent opacity-50"></div>
+<div class="relative z-10 flex flex-col md:flex-row items-center gap-6 p-6">
+<div class="bg-secondary/10 p-4 rounded-full">
+<span class="material-symbols-outlined text-secondary text-4xl animate-pulse" data-icon="warning" style="font-variation-settings: 'FILL' 1;">warning</span>
+</div>
+<div class="flex-1 text-center md:text-left">
+<h2 class="font-headline font-bold text-xl text-secondary tracking-tight">CROWD ALERT: GATE 4A CONGESTION</h2>
+<p class="text-on-surface-variant mt-1">High traffic detected at North Entrance. We recommend using <span class="text-primary font-bold">Gate 2B</span> for faster entry. Est. wait: 14 mins.</p>
+</div>
+<button class="px-6 py-3 rounded-xl border border-secondary/30 text-secondary font-headline font-bold text-sm tracking-widest hover:bg-secondary/10 transition-colors uppercase">VIEW MAP</button>
+</div>
+</div>
+<!-- Kick-off Countdown -->
+<div class="lg:col-span-4 bg-surface-container-high rounded-xl p-6 flex flex-col justify-center items-center text-center relative overflow-hidden border-l-4 border-primary">
+<span class="text-xs font-headline font-black text-primary tracking-[0.3em] uppercase mb-2">KICK-OFF IN</span>
+<div class="flex gap-4 items-baseline">
+<span class="font-headline text-5xl font-black text-on-background tracking-tighter">42</span>
+<span class="text-primary font-bold">MIN</span>
+<span class="font-headline text-5xl font-black text-on-background tracking-tighter">18</span>
+<span class="text-primary font-bold">SEC</span>
+</div>
+</div>
+</div>
+<!-- Main Bento Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+<!-- Digital Ticket Card -->
+<div class="lg:col-span-1 glass-card rounded-xl p-8 flex flex-col items-center justify-between shadow-2xl min-h-[500px] border border-white/5">
+<div class="w-full space-y-1 text-center">
+<p class="text-xs font-headline font-bold text-primary tracking-[0.4em] uppercase">MATCHDAY TICKET</p>
+<h3 class="text-2xl font-black font-headline tracking-tighter uppercase">VELOCITY VS TITANS</h3>
+</div>
+<!-- Ticket QR Visual -->
+<div class="relative w-full aspect-square max-w-[240px] bg-white p-4 rounded-xl shadow-[0_0_40px_rgba(143,245,255,0.2)] group cursor-pointer">
+<img alt="ticket qr code" class="w-full h-full object-contain" data-alt="abstract sharp clean qr code with neon accents for digital stadium entry ticket" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCWg7eggtZz4R7Kb_63mNiC9qNItlxlP7Smc20myuwIVQr85D2lG6iVQSM_GfkkvXgyRRvgf9NiLBxqkKb7BAkalimy9nnleOtPNAVzpngzlOqdiwl7Gt4Gj7ysOX8Wg2SSCc6LpZzj45oczFvtT6eSUN1KVSB_1yBAjRxr8Xe-m7ohYgrnWzTREOa8L0HRMHqLWFhKxfgXV7qmYCcGKeQj76wMGJ9bCtOg4bMWFEkI-2XcNKQfKrI6-oa3amduRR9AJwpdkTx3EQ"/>
+<div class="absolute inset-0 flex items-center justify-center bg-background/80 opacity-0 group-hover:opacity-100 transition-opacity rounded-xl">
+<span class="text-primary font-headline font-bold text-sm uppercase tracking-widest">TAP TO ENLARGE</span>
+</div>
+</div>
+<div class="w-full grid grid-cols-3 gap-4 border-t border-white/10 pt-6">
+<div class="text-center">
+<p class="text-[10px] text-slate-500 font-bold uppercase tracking-widest">GATE</p>
+<p class="text-lg font-headline font-black text-on-background">4A</p>
+</div>
+<div class="text-center">
+<p class="text-[10px] text-slate-500 font-bold uppercase tracking-widest">ROW</p>
+<p class="text-lg font-headline font-black text-on-background">12</p>
+</div>
+<div class="text-center">
+<p class="text-[10px] text-slate-500 font-bold uppercase tracking-widest">SEAT</p>
+<p class="text-lg font-headline font-black text-on-background">108</p>
+</div>
+</div>
+</div>
+<!-- Match Schedule Card -->
+<div class="lg:col-span-2 bg-surface-container rounded-xl overflow-hidden flex flex-col">
+<div class="p-6 flex justify-between items-end">
+<div>
+<h3 class="font-headline font-black text-3xl tracking-tighter uppercase">UPCOMING AT KINETIC</h3>
+<p class="text-slate-400 text-sm mt-1">Don't miss the playoff series action</p>
+</div>
+<button class="text-primary font-bold text-xs tracking-widest uppercase hover:underline">SEE FULL CALENDAR</button>
+</div>
+<div class="flex-1 flex flex-col p-2 gap-2">
+<!-- Match Row 1 -->
+<div class="group flex items-center justify-between p-6 rounded-xl hover:bg-surface-container-highest transition-all">
+<div class="flex items-center gap-6">
+<div class="text-center w-12">
+<p class="text-xs font-bold text-slate-500 uppercase tracking-tighter">OCT</p>
+<p class="text-xl font-black font-headline text-on-background">14</p>
+</div>
+<div class="h-10 w-[1px] bg-white/10"></div>
+<div>
+<h4 class="font-headline font-bold text-on-background tracking-tight">VELOCITY VS DRAGONS</h4>
+<p class="text-xs text-primary font-medium tracking-wide uppercase">PLAYOFF QUARTER-FINALS</p>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<span class="text-slate-500 text-sm font-medium">19:30</span>
+<span class="material-symbols-outlined text-slate-700 group-hover:text-primary transition-colors" data-icon="arrow_forward_ios">arrow_forward_ios</span>
+</div>
+</div>
+<!-- Match Row 2 -->
+<div class="group flex items-center justify-between p-6 rounded-xl hover:bg-surface-container-highest transition-all">
+<div class="flex items-center gap-6">
+<div class="text-center w-12">
+<p class="text-xs font-bold text-slate-500 uppercase tracking-tighter">OCT</p>
+<p class="text-xl font-black font-headline text-on-background">21</p>
+</div>
+<div class="h-10 w-[1px] bg-white/10"></div>
+<div>
+<h4 class="font-headline font-bold text-on-background tracking-tight">STORM VS TITANS</h4>
+<p class="text-xs text-slate-400 font-medium tracking-wide uppercase">REGULAR SEASON</p>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<span class="text-slate-500 text-sm font-medium">20:00</span>
+<span class="material-symbols-outlined text-slate-700 group-hover:text-primary transition-colors" data-icon="arrow_forward_ios">arrow_forward_ios</span>
+</div>
+</div>
+<!-- Match Row 3 -->
+<div class="group flex items-center justify-between p-6 rounded-xl hover:bg-surface-container-highest transition-all">
+<div class="flex items-center gap-6">
+<div class="text-center w-12">
+<p class="text-xs font-bold text-slate-500 uppercase tracking-tighter">OCT</p>
+<p class="text-xl font-black font-headline text-on-background">28</p>
+</div>
+<div class="h-10 w-[1px] bg-white/10"></div>
+<div>
+<h4 class="font-headline font-bold text-on-background tracking-tight">VELOCITY VS RAIDERS</h4>
+<p class="text-xs text-primary font-medium tracking-wide uppercase">SEASON FINALE</p>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<span class="text-slate-500 text-sm font-medium">18:00</span>
+<span class="material-symbols-outlined text-slate-700 group-hover:text-primary transition-colors" data-icon="arrow_forward_ios">arrow_forward_ios</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Secondary Section: Quick Actions & Stadium Visual -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+<div class="md:col-span-1 glass-card rounded-xl p-6 flex flex-col justify-between border border-white/5">
+<span class="material-symbols-outlined text-tertiary text-3xl" data-icon="fastfood">fastfood</span>
+<div>
+<h4 class="font-headline font-bold text-lg leading-tight uppercase">PRE-ORDER<br/>REFRESHMENTS</h4>
+<p class="text-xs text-slate-400 mt-2">Skip the line. Pick up at Section 102.</p>
+</div>
+</div>
+<div class="md:col-span-1 glass-card rounded-xl p-6 flex flex-col justify-between border border-white/5">
+<span class="material-symbols-outlined text-primary text-3xl" data-icon="directions_bus">directions_bus</span>
+<div>
+<h4 class="font-headline font-bold text-lg leading-tight uppercase">SHUTTLE<br/>TRACKER</h4>
+<p class="text-xs text-slate-400 mt-2">Next shuttle arriving in 8 mins.</p>
+</div>
+</div>
+<div class="md:col-span-2 relative rounded-xl overflow-hidden h-48 group">
+<img alt="stadium view" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="dramatic wide angle view of a futuristic sports stadium interior with blue neon lights and a crowded arena at night" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAlSpi2rhfWo8nx8JeewiTO_mRUBJ2OxU0Oyvvs2Wf1IdwuKodeuSnOY7b3OWg4WHOALD7SSrL9ar9jjZ-uIJJcTxDeFxQaj-Hjd74ry0LNR1WY3rFLoCEYGJmUdNARvH0Gb4kbprBwF0qo2YO57PYhs6RxP7-tEEZayTCe3R8ZPcN9JRCuP-MbPQ0WDPHhdWOSd1Qtf5ZI2yY7Jy68uO1w86zPg4Bs4m5o38AWTNQoNauAwmgVE0rJtcwrYd_BeWLd1B161XVtLA"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background via-background/20 to-transparent"></div>
+<div class="absolute bottom-4 left-6">
+<p class="text-[10px] font-headline font-black text-primary tracking-[0.3em] uppercase">NOW LIVE</p>
+<h4 class="text-xl font-headline font-bold text-white uppercase italic tracking-tighter">ATMOSPHERE: ELECTRIC</h4>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-6 pt-3 bg-[#090f15]/80 dark:bg-slate-950/80 rounded-t-[1.5rem] backdrop-blur-2xl border-t border-cyan-500/10 shadow-[0_-4px_24px_rgba(0,0,0,0.4)] md:hidden">
+<a class="flex flex-col items-center justify-center bg-gradient-to-br from-[#8ff5ff] to-[#00eefc] text-[#090f15] rounded-[1.5rem] px-5 py-2 scale-105 transition-transform active:scale-90" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard" style="font-variation-settings: 'FILL' 1;">dashboard</span>
+<span class="font-lexend text-[10px] font-bold tracking-widest mt-1 uppercase">DASHBOARD</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-500 py-2 hover:text-cyan-300 transition-all active:scale-90" href="#">
+<span class="material-symbols-outlined" data-icon="map">map</span>
+<span class="font-lexend text-[10px] font-bold tracking-widest mt-1 uppercase">CROWD MAP</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-500 py-2 hover:text-cyan-300 transition-all active:scale-90" href="#">
+<span class="material-symbols-outlined" data-icon="fastfood">fastfood</span>
+<span class="font-lexend text-[10px] font-bold tracking-widest mt-1 uppercase">CONCESSIONS</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-500 py-2 hover:text-cyan-300 transition-all active:scale-90" href="#">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+<span class="font-lexend text-[10px] font-bold tracking-widest mt-1 uppercase">FRIENDS</span>
+</a>
+</nav>
+<!-- FAB (Contextual for Dashboard) -->
+<button class="fixed bottom-24 right-6 w-16 h-16 rounded-full kinetic-gradient flex items-center justify-center shadow-[0_0_48px_rgba(143,245,255,0.2)] hover:scale-110 active:scale-95 transition-transform z-40 md:bottom-10">
+<span class="material-symbols-outlined text-on-primary-container text-3xl" data-icon="confirmation_number" style="font-variation-settings: 'FILL' 1;">confirmation_number</span>
+</button>
+</body></html>

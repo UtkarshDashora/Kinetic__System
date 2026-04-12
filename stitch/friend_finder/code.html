@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Friend Finder &amp; Group Sync | Kinetic Stadium</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;700;800;900&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary-fixed": "#001443",
+                        "inverse-primary": "#006a71",
+                        "tertiary": "#9cb4fe",
+                        "error": "#ff716c",
+                        "inverse-surface": "#f7f9ff",
+                        "surface-bright": "#242d37",
+                        "surface-container-low": "#0d141b",
+                        "surface-container": "#131a22",
+                        "secondary-fixed-dim": "#ffb194",
+                        "tertiary-container": "#8ea6f0",
+                        "on-error-container": "#ffa8a3",
+                        "on-tertiary": "#143073",
+                        "tertiary-fixed-dim": "#89a1ea",
+                        "secondary-dim": "#ff7439",
+                        "surface": "#090f15",
+                        "tertiary-fixed": "#97aef8",
+                        "surface-container-high": "#182028",
+                        "primary-fixed": "#00eefc",
+                        "on-primary-fixed-variant": "#005e64",
+                        "on-secondary-fixed": "#611e00",
+                        "background": "#090f15",
+                        "on-background": "#e6ebf4",
+                        "surface-container-lowest": "#000000",
+                        "secondary": "#ff7439",
+                        "surface-dim": "#090f15",
+                        "secondary-container": "#a73a00",
+                        "outline": "#70767e",
+                        "primary-container": "#00eefc",
+                        "surface-tint": "#8ff5ff",
+                        "secondary-fixed": "#ffc4af",
+                        "inverse-on-surface": "#50565d",
+                        "on-secondary": "#3f1100",
+                        "on-secondary-fixed-variant": "#903100",
+                        "tertiary-dim": "#849be4",
+                        "on-primary-container": "#005359",
+                        "on-error": "#490006",
+                        "outline-variant": "#424850",
+                        "on-primary": "#005d63",
+                        "primary": "#8ff5ff",
+                        "on-primary-fixed": "#003f43",
+                        "error-dim": "#d7383b",
+                        "on-secondary-container": "#fff6f3",
+                        "surface-container-highest": "#1e272f",
+                        "surface-variant": "#1e272f",
+                        "error-container": "#9f0519",
+                        "on-tertiary-container": "#022568",
+                        "on-surface-variant": "#a6abb4",
+                        "primary-dim": "#00deec",
+                        "on-tertiary-fixed-variant": "#1a3577",
+                        "primary-fixed-dim": "#00deec",
+                        "on-surface": "#e6ebf4"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Lexend"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .kinetic-glow {
+            box-shadow: 0 0 20px rgba(143, 245, 255, 0.15);
+        }
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1e272f;
+            border-radius: 10px;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background font-body selection:bg-primary selection:text-on-primary-container">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 flex justify-between items-center px-6 h-20 bg-slate-900/50 backdrop-blur-xl shadow-[0_0_20px_rgba(143,245,255,0.08)]">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full overflow-hidden border-2 border-primary/20">
+<img alt="User Profile" class="w-full h-full object-cover" data-alt="close-up portrait of a young man with a confident expression, sharp lighting, cinematic urban background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBWuogCoAchI6qpjHgKsMgtofwLZc8MwrTpnVzlURzKPJBCxFp-m8nJwszKAkvCbFF4lzqrlrfdLwfoS5qziPd9tE9cTl4ZEk2I1N7FOfxtix8rP3pXsO9GnhTbZLdvHWthht8v_oMYlziGpP-ay8fLRjtcAeX-CvVstMNMEkEaLGImMUwhmZoJOhe4HbN_uqMepbG1zOuiiUcd9Ty-fOv9XSOocxFSKWAwnAhx1ugqfV6uQo23hwN0zGb0atZjCLG31kJyolNpWQ"/>
+</div>
+<h1 class="text-2xl font-black italic tracking-tighter text-[#8ff5ff] font-headline uppercase">KINETIC STADIUM</h1>
+</div>
+<button class="w-10 h-10 flex items-center justify-center text-slate-400 hover:text-[#00eefc] transition-colors active:scale-95 duration-200">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+</header>
+<main class="pt-24 pb-32 px-6 max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8">
+<!-- Left Column: Friends List & Sync Controls -->
+<div class="lg:col-span-5 flex flex-col gap-8">
+<!-- Header Section -->
+<section class="flex flex-col gap-2">
+<span class="font-headline font-bold text-secondary text-sm tracking-widest uppercase">Live Sync</span>
+<h2 class="text-4xl font-headline font-black tracking-tight leading-none uppercase">FRIEND FINDER</h2>
+<p class="text-on-surface-variant text-sm mt-2 max-w-sm">Locate your crew across the arena in real-time. Stay connected through the electric pulse.</p>
+</section>
+<!-- Sync CTA Button -->
+<button class="group relative w-full bg-gradient-to-br from-primary to-primary-container text-on-primary-container font-headline font-bold py-5 rounded-xl flex items-center justify-center gap-3 active:scale-[0.98] transition-all kinetic-glow overflow-hidden">
+<span class="material-symbols-outlined" data-icon="share_location">share_location</span>
+<span class="tracking-wider uppercase">Share My Location</span>
+<div class="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700 skew-x-12"></div>
+</button>
+<!-- Quick Shouts -->
+<div class="flex flex-col gap-4">
+<h3 class="text-xs font-bold text-slate-500 uppercase tracking-[0.2em]">Quick Message</h3>
+<div class="flex flex-wrap gap-2">
+<button class="px-4 py-2 rounded-full border border-outline-variant/30 text-xs font-bold hover:bg-surface-container-highest hover:border-primary/50 transition-all text-on-surface uppercase">"Where are you?"</button>
+<button class="px-4 py-2 rounded-full border border-outline-variant/30 text-xs font-bold hover:bg-surface-container-highest hover:border-primary/50 transition-all text-on-surface uppercase">"At Concessions"</button>
+<button class="px-4 py-2 rounded-full border border-outline-variant/30 text-xs font-bold hover:bg-surface-container-highest hover:border-primary/50 transition-all text-on-surface uppercase">"Heading to seats"</button>
+<button class="px-4 py-2 rounded-full border border-outline-variant/30 text-xs font-bold hover:bg-surface-container-highest hover:border-primary/50 transition-all text-on-surface uppercase">"Need a drink?"</button>
+</div>
+</div>
+<!-- Friends List -->
+<div class="flex flex-col gap-4 overflow-y-auto max-h-[500px] pr-2">
+<h3 class="text-xs font-bold text-slate-500 uppercase tracking-[0.2em]">Crew (4 Active)</h3>
+<!-- Friend Card 1 -->
+<div class="bg-surface-container-low p-4 rounded-xl flex items-center justify-between group hover:bg-surface-container transition-colors relative overflow-hidden">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-secondary"></div>
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-xl overflow-hidden relative">
+<img alt="Friend" class="w-full h-full object-cover" data-alt="close-up profile of a man laughing, bright arena lighting, high contrast" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAM2paBR8rsi9OTiWX-D_k6MDdxNUq6uKA2REonfK8LJbnsEKBLNw-jnum5tCHrveU1JIhUtzg4fXynjrUSID3Woy6OY0Q4ehcbyhb45fzbOuEOAVqiTeXYbjCcsRkzMefpioLtwjfOLsda5bhOdTvwQSuW9gRqOqz0eARGvZsxYtBzpKCbeETdEBT9LyD5yz7TbuoC7kXp7W3eUuMnz09KmDl0wg3j9RBi5lbxwGs9b5bt6Azf6TJVLFSPsd4NSKApMNazP6Ke1w"/>
+<div class="absolute bottom-0 right-0 w-3 h-3 bg-primary border-2 border-surface-container-low rounded-full"></div>
+</div>
+<div class="flex flex-col">
+<span class="font-headline font-bold text-on-surface uppercase tracking-tight">MARCUS_FLYNN</span>
+<span class="text-[10px] font-bold text-secondary tracking-widest uppercase">SECTION 102 • ROW 12</span>
+</div>
+</div>
+<button class="w-10 h-10 rounded-full flex items-center justify-center text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="chat_bubble">chat_bubble</span>
+</button>
+</div>
+<!-- Friend Card 2 -->
+<div class="bg-surface-container-low p-4 rounded-xl flex items-center justify-between group hover:bg-surface-container transition-colors">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-xl overflow-hidden relative">
+<img alt="Friend" class="w-full h-full object-cover" data-alt="vibrant portrait of a woman with neon light reflections on her face, cinematic stadium atmosphere" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAt4-THs_Gh6WhBUq1qOnYK6Din2kAXyAIX1JhXre8_Pk_m-TWg24m3mEYRSpPtquHPjlZI_b1hzKgi3G5Q9_OHG9MzQwq2V9haG_AZe8tXbq904yG42Q3tVw3bj75Nm0QGm6QSeDSb-Q0v8EC2nX7reQVEBDgqv5snaViWuRczLaOWyK_99D-9cI55Y9Btt4grM1g5h-39TiZD2mNujjiHOyZ86ofb7M7Nc2PHsOFkKndOp-XEgB_kXvHTulbZZ9kbibUyt_8GTg"/>
+<div class="absolute bottom-0 right-0 w-3 h-3 bg-primary border-2 border-surface-container-low rounded-full"></div>
+</div>
+<div class="flex flex-col">
+<span class="font-headline font-bold text-on-surface uppercase tracking-tight">SARAH_JONES</span>
+<span class="text-[10px] font-bold text-on-surface-variant tracking-widest uppercase">CONCOURSE B • MERCH</span>
+</div>
+</div>
+<button class="w-10 h-10 rounded-full flex items-center justify-center text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="chat_bubble">chat_bubble</span>
+</button>
+</div>
+<!-- Friend Card 3 -->
+<div class="bg-surface-container-low p-4 rounded-xl flex items-center justify-between group hover:bg-surface-container transition-colors relative overflow-hidden">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-secondary"></div>
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-xl overflow-hidden relative">
+<img alt="Friend" class="w-full h-full object-cover" data-alt="professional headshot of a smiling person, soft studio lighting with a dark background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDIj50wg8BU3Xp5Txr388t6bimo7gb9tTCYzySLXpW1pd1IGHW8sVq8ZFGX8Hkgh1v4QmCWECOH_gZHhCLOprg4FWtYMxXnwyujRjtFN9O4jDn4mZ5kYJObol7XVhTPbuWTgs6BcQuGn4b4mzu4KpkGcTP92W7Q4XU1ylZR2O25_Ig7dWthGkVXYwVWJBsjFZMgZaNEjHWIcNFTqomkl7D_gndqrgCx6T_TffyG_CCqllJ6GaxSf1yOv0U2XGSy_joAyfbnB0OAFA"/>
+<div class="absolute bottom-0 right-0 w-3 h-3 bg-primary border-2 border-surface-container-low rounded-full"></div>
+</div>
+<div class="flex flex-col">
+<span class="font-headline font-bold text-on-surface uppercase tracking-tight">DEVRON_77</span>
+<span class="text-[10px] font-bold text-secondary tracking-widest uppercase">GATE 4A • ENTRY</span>
+</div>
+</div>
+<button class="w-10 h-10 rounded-full flex items-center justify-center text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="chat_bubble">chat_bubble</span>
+</button>
+</div>
+<!-- Friend Card 4 -->
+<div class="bg-surface-container-low p-4 rounded-xl flex items-center justify-between group hover:bg-surface-container transition-colors opacity-60">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-xl overflow-hidden relative grayscale">
+<img alt="Friend" class="w-full h-full object-cover" data-alt="lifestyle portrait of a woman in a casual setting, natural lighting, soft focus" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBNvbp1VYvwA3M0yD0dq6kpqxVC8UOrZUEDpXLlARKtUCOiCow2E8SHfB-MWmjV3GZs1wR7S9yk1uMci8upmv3Yhui-qEUkbcgtlMms-1_g8I3fBYklsoIcmyzsbSlzf9LYUvE1VDKjZDVMsC5M2WogcQM__Jq4TTBBAXRymjN8HifvFnhznK7CoLW__Ccv6HPlzIejRiEQkm4L_XVElVdgHWWqJpw9ncZHoQadKZZCtjBmGk5xCE4HpN-Qzi6ph-f-XOEkoT7I7A"/>
+</div>
+<div class="flex flex-col">
+<span class="font-headline font-bold text-on-surface uppercase tracking-tight">LEXI_ROSE</span>
+<span class="text-[10px] font-bold text-on-surface-variant tracking-widest uppercase">OFFLINE • 5M AGO</span>
+</div>
+</div>
+<button class="w-10 h-10 rounded-full flex items-center justify-center text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="chat_bubble">chat_bubble</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Right Column: Interactive Map -->
+<div class="lg:col-span-7 h-full min-h-[500px]">
+<div class="w-full h-full bg-surface-container rounded-[2rem] overflow-hidden relative border border-white/5 shadow-2xl">
+<!-- Map UI Overlays -->
+<div class="absolute top-6 left-6 z-10 flex flex-col gap-2">
+<div class="bg-background/80 backdrop-blur-md px-4 py-2 rounded-full border border-primary/20 flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+<span class="text-[10px] font-bold uppercase tracking-widest text-primary">Live Arena Feed</span>
+</div>
+</div>
+<div class="absolute bottom-6 right-6 z-10 flex flex-col gap-2">
+<button class="w-12 h-12 bg-background/80 backdrop-blur-md text-on-background rounded-full border border-white/10 flex items-center justify-center hover:bg-primary hover:text-on-primary-container transition-all">
+<span class="material-symbols-outlined" data-icon="add">add</span>
+</button>
+<button class="w-12 h-12 bg-background/80 backdrop-blur-md text-on-background rounded-full border border-white/10 flex items-center justify-center hover:bg-primary hover:text-on-primary-container transition-all">
+<span class="material-symbols-outlined" data-icon="remove">remove</span>
+</button>
+<button class="w-12 h-12 bg-background/80 backdrop-blur-md text-on-background rounded-full border border-white/10 flex items-center justify-center hover:bg-primary hover:text-on-primary-container transition-all mt-4">
+<span class="material-symbols-outlined" data-icon="my_location">my_location</span>
+</button>
+</div>
+<!-- Fake Map Content -->
+<div class="w-full h-full relative overflow-hidden grayscale contrast-[1.2]">
+<img alt="Stadium Map" class="w-full h-full object-cover opacity-30" data-alt="top-down blueprint map of a modern futuristic stadium complex with technical lines and glowing nodes" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD6CJ_918hW2C2oMuewvyWggpexfZwlnGXagLRiwqsMHpZZHsKzqi_3-HdMeJzJnFGxhzCKXhjxwDV87oHLTE03Lw3rno7z5anK31WBZuv_TsQeeyz51sZVk5xrHFdVvXssPB1uxHttelKNtSQAw33HFX3c8EnO4KWvGIlhwaqgRcLHiZrlGggWyConP2EqvXeCBNqIrNZF29CEi10GeXkJFgvzSAgb8sZVPVRdg0ZCK_h67ED8PbMJFG5IrJNwkvPGZ9uwyIO83A"/>
+<!-- Pulsating Hotspot (Me) -->
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+<div class="relative w-16 h-16">
+<div class="absolute inset-0 bg-primary/20 rounded-full animate-ping"></div>
+<div class="absolute inset-2 bg-primary/40 rounded-full animate-pulse"></div>
+<div class="absolute inset-[1.3rem] bg-primary rounded-full border-4 border-background shadow-lg shadow-primary/50"></div>
+</div>
+</div>
+<!-- Friend Marker 1 (Marcus) -->
+<div class="absolute top-[35%] left-[65%] group">
+<div class="flex flex-col items-center gap-2">
+<div class="bg-secondary px-3 py-1 rounded-full text-[9px] font-bold text-on-secondary uppercase tracking-widest shadow-lg translate-y-2 opacity-0 group-hover:opacity-100 group-hover:translate-y-0 transition-all">Marcus</div>
+<div class="w-10 h-10 rounded-full border-2 border-secondary overflow-hidden shadow-xl hover:scale-110 transition-transform cursor-pointer">
+<img alt="Friend" class="w-full h-full object-cover" data-alt="portrait" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA7EW06liO_jzReBsi1d2Vmcllp0KTdOhF_dyyV8M3RpUukBgjVkD9C0Niro886lli5cv1SIBHaXehckbsDIaQJFi5ITCybF94zRMfAVlAlF7GWKYbw-xfiauP2Dic4AvvTee2YG3MHYs15hClKeNfs9Xyg8_4EIHVlBCgGgQTUKT3aoH13k7NnmW4bFCXglMF8wVQ489rJfixdgKq5XmxPSUR2aFUjKe-atfY8xcK_Rdn3aUuP3sEh1qlMjSzhRnf_43G5pVEMqw"/>
+</div>
+</div>
+</div>
+<!-- Friend Marker 2 (Sarah) -->
+<div class="absolute top-[60%] left-[30%] group">
+<div class="flex flex-col items-center gap-2">
+<div class="bg-primary px-3 py-1 rounded-full text-[9px] font-bold text-on-primary-container uppercase tracking-widest shadow-lg translate-y-2 opacity-0 group-hover:opacity-100 group-hover:translate-y-0 transition-all">Sarah</div>
+<div class="w-10 h-10 rounded-full border-2 border-primary overflow-hidden shadow-xl hover:scale-110 transition-transform cursor-pointer">
+<img alt="Friend" class="w-full h-full object-cover" data-alt="portrait" src="https://lh3.googleusercontent.com/aida-public/AB6AXuClwi31iujIDUoD2By6zQxR8YtTSF4InzePtcdH0qu2aX5dfCnNb0sv7-uhsOE717AuFxEQ2agmV2jNKWqIHJhjxhhNgURB1dWEPwhOC-RCEg4Q8WNreGUAOmmzYo8k6_ZCxgko16Do5dxE5v0QWFTwp0MXkSjT9PbMST50eRmOzCp1hZceJdcDMhXf22PQuIAK1JR_HX50ydvwvZB1hXWlHNTA7uyJwOd7tHt75lmpXT2RelrlL5lZLSLgJmAKmRo66vx8CckKHA"/>
+</div>
+</div>
+</div>
+<!-- Friend Marker 3 (Devron) -->
+<div class="absolute top-[20%] left-[40%] group">
+<div class="flex flex-col items-center gap-2">
+<div class="bg-secondary px-3 py-1 rounded-full text-[9px] font-bold text-on-secondary uppercase tracking-widest shadow-lg translate-y-2 opacity-0 group-hover:opacity-100 group-hover:translate-y-0 transition-all">Devron</div>
+<div class="w-10 h-10 rounded-full border-2 border-secondary overflow-hidden shadow-xl hover:scale-110 transition-transform cursor-pointer">
+<img alt="Friend" class="w-full h-full object-cover" data-alt="portrait" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAFKc6_uhl94HSWRP3usAYAfkoKG3kJaDTDKHVXgh1rFqLNcCxDZK9lUGL8MGhsQ8Zlfe1sEnuKYdujsTCeh67lRZiD5qBqMVbgT3IQpNogB_mPGkYnSw2tkz6UYAnOo7IY1QDKb5q31ydxcHqVCGUXLL17kbU-tO9fbwuZkJlNPJNch40bi4oncJNSM7hT9xhe80r9u7oxkVumXKSHkkgrh0DwYgSBkeWUBgtR3UFNnBQI-S90vPuh5wy5Y7wFtVdBjfl7SKYgrw"/>
+</div>
+</div>
+</div>
+</div>
+<!-- Map Legend -->
+<div class="absolute bottom-6 left-6 z-10 flex gap-4 bg-background/60 backdrop-blur-md p-4 rounded-2xl border border-white/5">
+<div class="flex flex-col gap-1">
+<span class="text-[9px] font-bold text-on-surface-variant uppercase tracking-tighter">Your Location</span>
+<div class="h-1 w-full bg-primary rounded-full"></div>
+</div>
+<div class="flex flex-col gap-1">
+<span class="text-[9px] font-bold text-on-surface-variant uppercase tracking-tighter">Heavy Crowd</span>
+<div class="h-1 w-full bg-secondary rounded-full"></div>
+</div>
+<div class="flex flex-col gap-1">
+<span class="text-[9px] font-bold text-on-surface-variant uppercase tracking-tighter">Exit Path</span>
+<div class="h-1 w-full bg-tertiary rounded-full"></div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- NavigationDrawer (Suppressed for focused sync view, but structure implies drawer-like access) -->
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-6 pt-3 bg-[#090f15]/80 dark:bg-slate-950/80 rounded-t-[1.5rem] backdrop-blur-2xl border-t border-cyan-500/10 shadow-[0_-4px_24px_rgba(0,0,0,0.4)]">
+<a class="flex flex-col items-center justify-center text-slate-500 py-2 hover:text-cyan-300 transition-all active:scale-90" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-headline text-[10px] font-bold tracking-widest uppercase mt-1">DASHBOARD</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-500 py-2 hover:text-cyan-300 transition-all active:scale-90" href="#">
+<span class="material-symbols-outlined" data-icon="map">map</span>
+<span class="font-headline text-[10px] font-bold tracking-widest uppercase mt-1">CROWD MAP</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-500 py-2 hover:text-cyan-300 transition-all active:scale-90" href="#">
+<span class="material-symbols-outlined" data-icon="fastfood">fastfood</span>
+<span class="font-headline text-[10px] font-bold tracking-widest uppercase mt-1">CONCESSIONS</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-gradient-to-br from-[#8ff5ff] to-[#00eefc] text-[#090f15] rounded-[1.5rem] px-5 py-2 scale-105 active:scale-90 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="group" style="font-variation-settings: 'FILL' 1;">group</span>
+<span class="font-headline text-[10px] font-bold tracking-widest uppercase mt-1">FRIENDS</span>
+</a>
+</nav>
+</body></html>

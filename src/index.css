@@ -1,0 +1,31 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-background text-on-background font-body antialiased;
+  }
+}
+
+@layer components {
+  .glass-card {
+    background: rgba(30, 39, 47, 0.6);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+  }
+
+  .kinetic-gradient {
+    background: linear-gradient(135deg, #8ff5ff 0%, #00eefc 100%);
+  }
+
+  .material-symbols-outlined {
+    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  }
+}
+
+/* Helper for No-Line Architecture from Source */
+.bg-surface-container-low { @apply bg-[#0d141b]; }
+.bg-surface-container { @apply bg-[#131a22]; }
+.bg-surface-container-high { @apply bg-[#182028]; }
+.bg-surface-container-highest { @apply bg-[#1e272f]; }

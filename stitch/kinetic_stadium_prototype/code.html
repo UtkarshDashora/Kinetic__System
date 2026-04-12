@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Kinetic Stadium Prototype</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&family=Inter:wght@100..900&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "on-tertiary-fixed": "#001443",
+                        "inverse-primary": "#006a71",
+                        "tertiary": "#9cb4fe",
+                        "error": "#ff716c",
+                        "inverse-surface": "#f7f9ff",
+                        "surface-bright": "#242d37",
+                        "surface-container-low": "#0d141b",
+                        "surface-container": "#131a22",
+                        "secondary-fixed-dim": "#ffb194",
+                        "tertiary-container": "#8ea6f0",
+                        "on-error-container": "#ffa8a3",
+                        "on-tertiary": "#143073",
+                        "tertiary-fixed-dim": "#89a1ea",
+                        "secondary-dim": "#ff7439",
+                        "surface": "#090f15",
+                        "tertiary-fixed": "#97aef8",
+                        "surface-container-high": "#182028",
+                        "primary-fixed": "#00eefc",
+                        "on-primary-fixed-variant": "#005e64",
+                        "on-secondary-fixed": "#611e00",
+                        "background": "#090f15",
+                        "on-background": "#e6ebf4",
+                        "surface-container-lowest": "#000000",
+                        "secondary": "#ff7439",
+                        "surface-dim": "#090f15",
+                        "secondary-container": "#a73a00",
+                        "outline": "#70767e",
+                        "primary-container": "#00eefc",
+                        "surface-tint": "#8ff5ff",
+                        "secondary-fixed": "#ffc4af",
+                        "inverse-on-surface": "#50565d",
+                        "on-secondary": "#3f1100",
+                        "on-secondary-fixed-variant": "#903100",
+                        "tertiary-dim": "#849be4",
+                        "on-primary-container": "#005359",
+                        "on-error": "#490006",
+                        "outline-variant": "#424850",
+                        "on-primary": "#005d63",
+                        "primary": "#8ff5ff",
+                        "on-primary-fixed": "#003f43",
+                        "error-dim": "#d7383b",
+                        "on-secondary-container": "#fff6f3",
+                        "surface-container-highest": "#1e272f",
+                        "surface-variant": "#1e272f",
+                        "error-container": "#9f0519",
+                        "on-tertiary-container": "#022568",
+                        "on-surface-variant": "#a6abb4",
+                        "primary-dim": "#00deec",
+                        "on-tertiary-fixed-variant": "#1a3577",
+                        "primary-fixed-dim": "#00deec",
+                        "on-surface": "#e6ebf4"
+                    },
+                    borderRadius: {
+                        DEFAULT: "0.25rem",
+                        lg: "0.5rem",
+                        xl: "0.75rem",
+                        full: "9999px"
+                    },
+                    fontFamily: {
+                        headline: ["Lexend"],
+                        body: ["Inter"],
+                        label: ["Inter"]
+                    }
+                }
+            }
+        };
+    </script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            min-height: max(884px, 100dvh);
+        }
+        .map-perspective {
+            perspective: 1200px;
+        }
+        .isometric-card {
+            transform: rotateX(25deg) rotateY(-15deg) rotateZ(5deg);
+        }
+        .heat-pulse {
+            animation: pulse-glow 3s infinite ease-in-out;
+        }
+        @keyframes pulse-glow {
+            0%, 100% { opacity: 0.4; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(1.1); }
+        }
+        .glass-card {
+            background: rgba(30, 39, 47, 0.6);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+        }
+        .kinetic-gradient {
+            background: linear-gradient(135deg, #8ff5ff 0%, #00eefc 100%);
+        }
+        .kinetic-glow {
+            box-shadow: 0 0 20px rgba(143, 245, 255, 0.15);
+        }
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1e272f;
+            border-radius: 10px;
+        }
+    </style>
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/history@5/umd/history.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-router@6.3.0/umd/react-router.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-router-dom@6.3.0/umd/react-router-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js" crossorigin></script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface font-body selection:bg-primary selection:text-on-primary">
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+        const { createRoot } = ReactDOM;
+        const { MemoryRouter, Routes, Route, Link, useNavigate, useLocation } = ReactRouterDOM;
+
+        // Components
+        const Header = () => (
+            <header className="fixed top-0 w-full z-50 flex justify-between items-center px-6 h-20 bg-slate-900/50 backdrop-blur-xl shadow-[0_0_20px_rgba(143,245,255,0.08)]">
+                <div className="flex items-center gap-4">
+                    <div className="w-10 h-10 rounded-full border-2 border-primary/30 overflow-hidden">
+                        <img alt="user profile picture" className="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCAkCxNmLamq3a4ZmEbBPlhHpV4Oo6J_8BH8rSZpLf9MMjL0Zjaal8i-XkePH2LrDiEX0enP94jGv_3Wll9wMr0IzHdeThp3eX56-_ljVh-PT2eMQ2vvTvR78IsO9LlSuBlkq-DQmXi4W45kqnn15IGRP0NGjrfprhC1CCdeThU7WznjGnD1puubttFmeQxIrcrPRixY4yw7ev29JvF_Bu69QN986E0INqE62MdVgJXSoiciRHsjJASswEFMVDFpWM4C_Q6aAeNeg" />
+                    </div>
+                    <h1 className="text-2xl font-black italic tracking-tighter text-[#8ff5ff] font-headline uppercase">KINETIC STADIUM</h1>
+                </div>
+                <div className="flex items-center gap-6">
+                    <nav className="hidden md:flex gap-8 font-headline text-sm font-bold tracking-widest">
+                        <Link className="text-slate-400 hover:text-[#00eefc] transition-colors" to="/">DASHBOARD</Link>
+                        <Link className="text-slate-400 hover:text-[#00eefc] transition-colors" to="/map">CROWD MAP</Link>
+                        <Link className="text-slate-400 hover:text-[#00eefc] transition-colors" to="/concessions">CONCESSIONS</Link>
+                        <Link className="text-slate-400 hover:text-[#00eefc] transition-colors" to="/friends">FRIENDS</Link>
+                    </nav>
+                    <button className="material-symbols-outlined text-slate-400 hover:text-[#00eefc] transition-colors active:scale-95 duration-200">notifications</button>
+                </div>
+            </header>
+        );
+
+        const BottomNav = () => {
+            const location = useLocation();
+            
+            const getLinkClass = (path) => {
+                const isActive = location.pathname === path;
+                return isActive 
+                    ? "flex flex-col items-center justify-center bg-gradient-to-br from-[#8ff5ff] to-[#00eefc] text-[#090f15] rounded-[1.5rem] px-5 py-2 scale-105 transition-transform active:scale-90"
+                    : "flex flex-col items-center justify-center text-slate-500 py-2 hover:text-cyan-300 transition-all active:scale-90";
+            };
+
+            const getIconFill = (path) => location.pathname === path ? { fontVariationSettings: "'FILL' 1" } : {};
+
+            return (
+                <nav className="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-6 pt-3 bg-[#090f15]/80 dark:bg-slate-950/80 rounded-t-[1.5rem] backdrop-blur-2xl border-t border-cyan-500/10 shadow-[0_-4px_24px_rgba(0,0,0,0.4)] md:hidden">
+                    <Link className={getLinkClass('/')} to="/">
+                        <span className="material-symbols-outlined" style={getIconFill('/')}>dashboard</span>
+                        <span className="font-lexend text-[10px] font-bold tracking-widest mt-1 uppercase">DASHBOARD</span>
+                    </Link>
+                    <Link className={getLinkClass('/map')} to="/map">
+                        <span className="material-symbols-outlined" style={getIconFill('/map')}>map</span>
+                        <span className="font-lexend text-[10px] font-bold tracking-widest mt-1 uppercase">CROWD MAP</span>
+                    </Link>
+                    <Link className={getLinkClass('/concessions')} to="/concessions">
+                        <span className="material-symbols-outlined" style={getIconFill('/concessions')}>fastfood</span>
+                        <span className="font-lexend text-[10px] font-bold tracking-widest mt-1 uppercase">CONCESSIONS</span>
+                    </Link>
+                    <Link className={getLinkClass('/friends')} to="/friends">
+                        <span className="material-symbols-outlined" style={getIconFill('/friends')}>group</span>
+                        <span className="font-lexend text-[10px] font-bold tracking-widest mt-1 uppercase">FRIENDS</span>
+                    </Link>
+                </nav>
+            );
+        };
+
+        // Screens
+        const Dashboard = () => (
+            <div className="pt-28 pb-32 px-6 max-w-7xl mx-auto space-y-8">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                    <div className="lg:col-span-8 group relative overflow-hidden rounded-xl bg-surface-container-low p-1">
+                        <div className="absolute inset-0 bg-gradient-to-r from-secondary/20 to-transparent opacity-50"></div>
+                        <div className="relative z-10 flex flex-col md:flex-row items-center gap-6 p-6">
+                            <div className="bg-secondary/10 p-4 rounded-full">
+                                <span className="material-symbols-outlined text-secondary text-4xl animate-pulse" style={{ fontVariationSettings: "'FILL' 1" }}>warning</span>
+                            </div>
+                            <div className="flex-1 text-center md:text-left">
+                                <h2 className="font-headline font-bold text-xl text-secondary tracking-tight">CROWD ALERT: GATE 4A CONGESTION</h2>
+                                <p className="text-on-surface-variant mt-1">High traffic detected at North Entrance. We recommend using <span className="text-primary font-bold">Gate 2B</span> for faster entry. Est. wait: 14 mins.</p>
+                            </div>
+                            <Link to="/map" className="px-6 py-3 rounded-xl border border-secondary/30 text-secondary font-headline font-bold text-sm tracking-widest hover:bg-secondary/10 transition-colors uppercase">VIEW MAP</Link>
+                        </div>
+                    </div>
+                    <div className="lg:col-span-4 bg-surface-container-high rounded-xl p-6 flex flex-col justify-center items-center text-center relative overflow-hidden border-l-4 border-primary">
+                        <span className="text-xs font-headline font-black text-primary tracking-[0.3em] uppercase mb-2">KICK-OFF IN</span>
+                        <div className="flex gap-4 items-baseline">
+                            <span className="font-headline text-5xl font-black text-on-background tracking-tighter">42</span>
+                            <span className="text-primary font-bold">MIN</span>
+                            <span className="font-headline text-5xl font-black text-on-background tracking-tighter">18</span>
+                            <span className="text-primary font-bold">SEC</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div className="lg:col-span-1 glass-card rounded-xl p-8 flex flex-col items-center justify-between shadow-2xl min-h-[500px] border border-white/5">
+                        <div className="w-full space-y-1 text-center">
+                            <p className="text-xs font-headline font-bold text-primary tracking-[0.4em] uppercase">MATCHDAY TICKET</p>
+                            <h3 className="text-2xl font-black font-headline tracking-tighter uppercase">VELOCITY VS TITANS</h3>
+                        </div>
+                        <div className="relative w-full aspect-square max-w-[240px] bg-white p-4 rounded-xl shadow-[0_0_40px_rgba(143,245,255,0.2)] group cursor-pointer">
+                            <img alt="ticket qr code" className="w-full h-full object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCWg7eggtZz4R7Kb_63mNiC9qNItlxlP7Smc20myuwIVQr85D2lG6iVQSM_GfkkvXgyRRvgf9NiLBxqkKb7BAkalimy9nnleOtPNAVzpngzlOqdiwl7Gt4Gj7ysOX8Wg2SSCc6LpZzj45oczFvtT6eSUN1KVSB_1yBAjRxr8Xe-m7ohYgrnWzTREOa8L0HRMHqLWFhKxfgXV7qmYCcGKeQj76wMGJ9bCtOg4bMWFEkI-2XcNKQfKrI6-oa3amduRR9AJwpdkTx3EQ" />
+                            <div className="absolute inset-0 flex items-center justify-center bg-background/80 opacity-0 group-hover:opacity-100 transition-opacity rounded-xl">
+                                <span className="text-primary font-headline font-bold text-sm uppercase tracking-widest">TAP TO ENLARGE</span>
+                            </div>
+                        </div>
+                        <div className="w-full grid grid-cols-3 gap-4 border-t border-white/10 pt-6">
+                            <div className="text-center">
+                                <p className="text-[10px] text-slate-500 font-bold uppercase tracking-widest">GATE</p>
+                                <p className="text-lg font-headline font-black text-on-background">4A</p>
+                            </div>
+                            <div className="text-center">
+                                <p className="text-[10px] text-slate-500 font-bold uppercase tracking-widest">ROW</p>
+                                <p className="text-lg font-headline font-black text-on-background">12</p>
+                            </div>
+                            <div className="text-center">
+                                <p className="text-[10px] text-slate-500 font-bold uppercase tracking-widest">SEAT</p>
+                                <p className="text-lg font-headline font-black text-on-background">108</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="lg:col-span-2 bg-surface-container rounded-xl overflow-hidden flex flex-col">
+                        <div className="p-6 flex justify-between items-end">
+                            <div>
+                                <h3 className="font-headline font-black text-3xl tracking-tighter uppercase">UPCOMING AT KINETIC</h3>
+                                <p className="text-slate-400 text-sm mt-1">Don't miss the playoff series action</p>
+                            </div>
+                            <button className="text-primary font-bold text-xs tracking-widest uppercase hover:underline">SEE FULL CALENDAR</button>
+                        </div>
+                        <div className="flex-1 flex flex-col p-2 gap-2">
+                            {[
+                                { date: '14', opp: 'DRAGONS', type: 'PLAYOFF QUARTER-FINALS', time: '19:30' },
+                                { date: '21', opp: 'TITANS', type: 'REGULAR SEASON', time: '20:00' },
+                                { date: '28', opp: 'RAIDERS', type: 'SEASON FINALE', time: '18:00' }
+                            ].map((match, i) => (
+                                <div key={i} className="group flex items-center justify-between p-6 rounded-xl hover:bg-surface-container-highest transition-all">
+                                    <div className="flex items-center gap-6">
+                                        <div className="text-center w-12">
+                                            <p className="text-xs font-bold text-slate-500 uppercase tracking-tighter">OCT</p>
+                                            <p className="text-xl font-black font-headline text-on-background">{match.date}</p>
+                                        </div>
+                                        <div className="h-10 w-[1px] bg-white/10"></div>
+                                        <div>
+                                            <h4 className="font-headline font-bold text-on-background tracking-tight">VELOCITY VS {match.opp}</h4>
+                                            <p className="text-xs text-primary font-medium tracking-wide uppercase">{match.type}</p>
+                                        </div>
+                                    </div>
+                                    <div className="flex items-center gap-4">
+                                        <span className="text-slate-500 text-sm font-medium">{match.time}</span>
+                                        <span className="material-symbols-outlined text-slate-700 group-hover:text-primary transition-colors">arrow_forward_ios</span>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+                    <Link to="/concessions" className="md:col-span-1 glass-card rounded-xl p-6 flex flex-col justify-between border border-white/5 hover:border-primary/50 transition-colors">
+                        <span className="material-symbols-outlined text-tertiary text-3xl">fastfood</span>
+                        <div>
+                            <h4 className="font-headline font-bold text-lg leading-tight uppercase">PRE-ORDER<br />REFRESHMENTS</h4>
+                            <p className="text-xs text-slate-400 mt-2">Skip the line. Pick up at Section 102.</p>
+                        </div>
+                    </Link>
+                    <div className="md:col-span-1 glass-card rounded-xl p-6 flex flex-col justify-between border border-white/5">
+                        <span className="material-symbols-outlined text-primary text-3xl">directions_bus</span>
+                        <div>
+                            <h4 className="font-headline font-bold text-lg leading-tight uppercase">SHUTTLE<br />TRACKER</h4>
+                            <p className="text-xs text-slate-400 mt-2">Next shuttle arriving in 8 mins.</p>
+                        </div>
+                    </div>
+                    <div className="md:col-span-2 relative rounded-xl overflow-hidden h-48 group">
+                        <img alt="stadium view" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAlSpi2rhfWo8nx8JeewiTO_mRUBJ2OxU0Oyvvs2Wf1IdwuKodeuSnOY7b3OWg4WHOALD7SSrL9ar9jjZ-uIJJcTxDeFxQaj-Hjd74ry0LNR1WY3rFLoCEYGJmUdNARvH0Gb4kbprBwF0qo2YO57PYhs6RxP7-tEEZayTCe3R8ZPcN9JRCuP-MbPQ0WDPHhdWOSd1Qtf5ZI2yY7Jy68uO1w86zPg4Bs4m5o38AWTNQoNauAwmgVE0rJtcwrYd_BeWLd1B161XVtLA" />
+                        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/20 to-transparent"></div>
+                        <div className="absolute bottom-4 left-6">
+                            <p className="text-[10px] font-headline font-black text-primary tracking-[0.3em] uppercase">NOW LIVE</p>
+                            <h4 className="text-xl font-headline font-bold text-white uppercase italic tracking-tighter">ATMOSPHERE: ELECTRIC</h4>
+                        </div>
+                    </div>
+                </div>
+                
+                <button className="fixed bottom-24 right-6 w-16 h-16 rounded-full kinetic-gradient flex items-center justify-center shadow-[0_0_48px_rgba(143,245,255,0.2)] hover:scale-110 active:scale-95 transition-transform z-40 md:bottom-10">
+                    <span className="material-symbols-outlined text-on-primary-container text-3xl" style={{ fontVariationSettings: "'FILL' 1" }}>confirmation_number</span>
+                </button>
+            </div>
+        );
+
+        const Map = () => (
+            <div className="pt-24 pb-32 px-4 md:px-8 min-h-screen">
+                <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-6">
+                    <div className="lg:col-span-3 flex flex-col gap-6">
+                        <section className="bg-surface-container-low p-6 rounded-xl space-y-6">
+                            <div className="relative">
+                                <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline">search</span>
+                                <input className="w-full bg-surface-container-highest border-none rounded-xl py-3 pl-10 pr-4 text-sm focus:ring-1 focus:ring-primary placeholder:text-outline" placeholder="Search amenities..." type="text" />
+                            </div>
+                            <div className="space-y-4">
+                                <h3 className="font-headline text-xs tracking-widest uppercase text-outline">Quick Filters</h3>
+                                <div className="flex flex-wrap gap-2">
+                                    <button className="flex items-center gap-2 px-4 py-2 bg-secondary-container text-on-secondary-container rounded-full text-xs font-bold transition-transform active:scale-90">
+                                        <span className="material-symbols-outlined text-sm">wc</span> RESTROOMS
+                                    </button>
+                                    <button className="flex items-center gap-2 px-4 py-2 bg-surface-container-highest text-on-surface rounded-full text-xs font-bold hover:bg-surface-container-high transition-colors">
+                                        <span className="material-symbols-outlined text-sm">fastfood</span> FOOD
+                                    </button>
+                                    <button className="flex items-center gap-2 px-4 py-2 bg-surface-container-highest text-on-surface rounded-full text-xs font-bold hover:bg-surface-container-high transition-colors">
+                                        <span className="material-symbols-outlined text-sm">local_bar</span> DRINKS
+                                    </button>
+                                </div>
+                            </div>
+                            <div className="pt-4 border-t border-outline-variant/10">
+                                <div className="flex justify-between items-center mb-4">
+                                    <span className="text-xs font-bold tracking-wider text-outline uppercase">Live Status</span>
+                                    <span className="flex items-center gap-1.5 text-[10px] bg-emerald-500/10 text-emerald-400 px-2 py-0.5 rounded-full font-bold">
+                                        <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse"></span> LIVE
+                                    </span>
+                                </div>
+                                <div className="space-y-3">
+                                    <div className="flex items-center justify-between">
+                                        <span className="text-sm text-on-surface-variant">North Concourse</span>
+                                        <span className="text-sm font-bold text-error">HEAVY</span>
+                                    </div>
+                                    <div className="w-full h-1 bg-surface-container-highest rounded-full overflow-hidden">
+                                        <div className="h-full bg-error w-[85%]"></div>
+                                    </div>
+                                    <div className="flex items-center justify-between">
+                                        <span className="text-sm text-on-surface-variant">Gate 4 Plaza</span>
+                                        <span className="text-sm font-bold text-primary">LIGHT</span>
+                                    </div>
+                                    <div className="w-full h-1 bg-surface-container-highest rounded-full overflow-hidden">
+                                        <div className="h-full bg-primary w-[20%]"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                        <section className="bg-gradient-to-br from-primary/10 to-transparent p-6 rounded-xl border border-primary/10 relative overflow-hidden group">
+                            <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+                                <span className="material-symbols-outlined text-6xl" style={{ fontVariationSettings: "'FILL' 1" }}>near_me</span>
+                            </div>
+                            <h3 className="font-headline text-lg font-bold mb-1 text-primary">FASTEST ROUTE</h3>
+                            <p className="text-xs text-on-surface-variant mb-6 uppercase tracking-wider">To: Section 302, Row G</p>
+                            <div className="flex items-center gap-4 mb-4">
+                                <div className="bg-primary-container text-on-primary-container w-10 h-10 rounded-xl flex items-center justify-center font-black">4m</div>
+                                <div>
+                                    <p className="text-sm font-bold">Via Level 2 Express</p>
+                                    <p className="text-[10px] text-on-surface-variant">Avoids Concession Cluster B</p>
+                                </div>
+                            </div>
+                            <button className="w-full py-3 bg-gradient-to-br from-primary to-primary-container text-on-primary rounded-xl font-headline font-bold text-sm tracking-widest transition-transform active:scale-95">START NAVIGATION</button>
+                        </section>
+                    </div>
+                    <div className="lg:col-span-9 relative bg-surface-container-low rounded-[2rem] overflow-hidden shadow-2xl min-h-[600px] border border-white/5">
+                        <div className="absolute inset-0 flex items-center justify-center bg-[#0d141b]">
+                            <div className="map-perspective relative w-full h-full flex items-center justify-center">
+                                <div className="isometric-card relative w-[800px] h-[500px]">
+                                    <div className="absolute inset-0 bg-surface-container-high rounded-[4rem] shadow-[0_40px_100px_rgba(0,0,0,0.6)] flex items-center justify-center overflow-hidden">
+                                        <img alt="floor plan" className="w-full h-full object-cover opacity-20 scale-150" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDg3g7cMz-vAO2OUrISH3gBzOua0o9aeojHQpWE6HG5rwA1oxHXnEHQO0sReqVrtrDmhp5J6yYf3Gnmr5hhg5dJeyxivfSe6ItZdJH3bFGkBsKr4gvLlUcbB5dIHUO030AjIEUQHfGEVCpIDz24sLNb7wG_MC35avsK0cHxHdDAMjyEjdYGBy5Oo9anTWU4noiwSXD_nat-LoEXYKjHV9Kox6svBv0vNTATwB2jlNHrB87P2TOB17uc9Wa6X3qjDAX-MO0JvZNt6w" />
+                                        <div className="absolute top-1/4 left-1/3 w-32 h-32 bg-error/40 blur-[40px] heat-pulse rounded-full"></div>
+                                        <div className="absolute bottom-1/4 right-1/4 w-48 h-48 bg-secondary/30 blur-[60px] heat-pulse rounded-full"></div>
+                                        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[200px] bg-primary/5 blur-[80px] rounded-full"></div>
+                                    </div>
+                                    <svg className="absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 800 500">
+                                        <path d="M 100 400 Q 250 380 400 300 T 700 150" fill="none" opacity="0.8" stroke="#8ff5ff" strokeDasharray="12 12" strokeLinecap="round" strokeWidth="6">
+                                            <animate attributeName="stroke-dashoffset" dur="5s" from="100" repeatCount="indefinite" to="0"></animate>
+                                        </path>
+                                    </svg>
+                                    <div className="absolute left-[100px] top-[400px] -translate-x-1/2 -translate-y-1/2 group">
+                                        <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center shadow-[0_0_20px_#8ff5ff]">
+                                            <span className="material-symbols-outlined text-on-primary text-sm" style={{ fontVariationSettings: "'FILL' 1" }}>person</span>
+                                        </div>
+                                    </div>
+                                    <div className="absolute left-[400px] top-[300px] -translate-x-1/2 -translate-y-1/2 group cursor-pointer">
+                                        <div className="w-10 h-10 bg-surface-container-highest border border-white/10 rounded-xl flex items-center justify-center hover:scale-110 transition-transform shadow-xl">
+                                            <span className="material-symbols-outlined text-secondary">fastfood</span>
+                                        </div>
+                                    </div>
+                                    <div className="absolute left-[700px] top-[150px] -translate-x-1/2 -translate-y-1/2">
+                                        <div className="w-12 h-12 bg-primary-container text-on-primary-container rounded-full flex items-center justify-center shadow-[0_0_30px_rgba(0,238,252,0.4)] animate-bounce">
+                                            <span className="material-symbols-outlined text-2xl" style={{ fontVariationSettings: "'FILL' 1" }}>location_on</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="absolute top-6 right-6 flex flex-col gap-2">
+                            <button className="w-12 h-12 bg-surface-container-highest/80 backdrop-blur-md rounded-xl flex items-center justify-center text-on-surface hover:bg-primary hover:text-on-primary transition-all active:scale-90"><span className="material-symbols-outlined">add</span></button>
+                            <button className="w-12 h-12 bg-surface-container-highest/80 backdrop-blur-md rounded-xl flex items-center justify-center text-on-surface hover:bg-primary hover:text-on-primary transition-all active:scale-90"><span className="material-symbols-outlined">remove</span></button>
+                            <button className="w-12 h-12 bg-surface-container-highest/80 backdrop-blur-md rounded-xl flex items-center justify-center text-on-surface hover:bg-primary hover:text-on-primary transition-all active:scale-90 mt-4"><span className="material-symbols-outlined">layers</span></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        );
+
+        const Concessions = () => (
+            <div className="pt-24 pb-32 px-6 max-w-7xl mx-auto">
+                <section className="mb-10">
+                    <h2 className="font-headline text-3xl font-bold tracking-tighter uppercase mb-6 text-on-background">MY RECENT ORDERS</h2>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div className="bg-surface-container-low p-5 rounded-xl border-l-4 border-secondary flex justify-between items-center group hover:bg-surface-container transition-all duration-300">
+                            <div className="flex flex-col">
+                                <span className="font-label text-[10px] tracking-widest text-secondary font-bold uppercase mb-1">COMPLETED • GATE 4A</span>
+                                <h3 className="font-headline text-xl font-bold text-on-surface">NEON BURGER CO.</h3>
+                                <p className="text-sm text-on-surface-variant">2x Double Kinetic Burger, 1x Large Fries</p>
+                            </div>
+                            <div className="text-right">
+                                <div className="font-headline text-lg font-bold text-primary mb-1">$34.50</div>
+                                <button className="text-[10px] font-bold tracking-widest uppercase py-1.5 px-3 rounded-full border border-outline-variant hover:border-primary hover:text-primary transition-colors">REORDER</button>
+                            </div>
+                        </div>
+                        <div className="bg-surface-container-low p-5 rounded-xl flex justify-between items-center group hover:bg-surface-container transition-all duration-300">
+                            <div className="flex flex-col">
+                                <span className="font-label text-[10px] tracking-widest text-outline font-bold uppercase mb-1">COMPLETED • SECTOR B</span>
+                                <h3 className="font-headline text-xl font-bold text-on-surface">VELOCITY BREWS</h3>
+                                <p className="text-sm text-on-surface-variant">1x Nitro Cold Brew, 1x Energy Glazed Donut</p>
+                            </div>
+                            <div className="text-right">
+                                <div className="font-headline text-lg font-bold text-primary mb-1">$12.00</div>
+                                <button className="text-[10px] font-bold tracking-widest uppercase py-1.5 px-3 rounded-full border border-outline-variant hover:border-primary hover:text-primary transition-colors">REORDER</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section className="mb-12">
+                    <div className="flex items-end justify-between mb-8">
+                        <div>
+                            <h2 className="font-headline text-4xl font-black tracking-tighter uppercase leading-none">VENDORS</h2>
+                            <p className="text-primary font-label text-sm tracking-wide mt-2 uppercase">Live Wait Times • Express Pickup Available</p>
+                        </div>
+                        <div className="flex gap-2 hidden md:flex">
+                            <button className="bg-surface-container-highest px-4 py-2 rounded-full text-xs font-bold uppercase tracking-widest border border-primary/10">All</button>
+                            <button className="px-4 py-2 rounded-full text-xs font-bold uppercase tracking-widest text-on-surface-variant">Food</button>
+                            <button className="px-4 py-2 rounded-full text-xs font-bold uppercase tracking-widest text-on-surface-variant">Drinks</button>
+                        </div>
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div className="md:col-span-2 relative group overflow-hidden rounded-xl bg-surface-container-low h-[400px]">
+                            <img className="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:scale-105 transition-transform duration-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCIC7GCuupU-ERe-RmAY295kbVDjEELPUARUzxo59xQOKQgQq5tt2OpfQ7w3OM6x4alCLsR6Ey1dAHYVaGoYnAoAeBRSoH_2RegUyXgzlrZsAQopO-43PfgawLPBLf3QNRRgcqrXW0paJnzxXY9lN7GitXCQ0dJdsa-OKrktNl0U1XEFAxd9unyQEdcQ2rpLcGR_haquVF4PWWQlVTkvfahXdRwnX7mfENj8uGhWgHh5kbP6Vr0WgzXDQwp8ev5ItuoAq1uroqoqA" />
+                            <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent"></div>
+                            <div className="absolute bottom-0 left-0 p-8 w-full">
+                                <div className="flex justify-between items-end">
+                                    <div>
+                                        <div className="inline-flex items-center gap-2 bg-secondary/90 backdrop-blur px-3 py-1 rounded-full mb-4">
+                                            <span className="material-symbols-outlined text-[14px] text-on-secondary" style={{ fontVariationSettings: "'FILL' 1" }}>timer</span>
+                                            <span className="text-[10px] font-black text-on-secondary uppercase tracking-widest">5 MIN WAIT</span>
+                                        </div>
+                                        <h3 className="font-headline text-5xl font-black tracking-tighter uppercase text-white mb-2 italic">NEON BURGER CO.</h3>
+                                        <p className="text-on-surface-variant max-w-md hidden md:block">The stadium's signature charcoal-bun burgers with electric-blue garlic aioli.</p>
+                                    </div>
+                                    <button className="kinetic-gradient text-on-primary-container px-8 py-4 rounded-xl font-headline font-black uppercase italic tracking-tighter text-xl active:scale-95 transition-transform">SELECT</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="bg-surface-container-low rounded-xl p-6 flex flex-col justify-between group hover:bg-surface-container transition-colors">
+                            <div>
+                                <div className="flex justify-between items-start mb-6">
+                                    <div className="w-14 h-14 bg-surface-container-highest rounded-xl flex items-center justify-center text-primary">
+                                        <span className="material-symbols-outlined text-3xl">local_pizza</span>
+                                    </div>
+                                    <div className="text-right">
+                                        <div className="text-[10px] font-black text-outline uppercase tracking-widest">WAIT TIME</div>
+                                        <div className="text-xl font-headline font-bold text-tertiary">12 MIN</div>
+                                    </div>
+                                </div>
+                                <h3 className="font-headline text-2xl font-bold tracking-tighter uppercase mb-2">APEX PIZZA</h3>
+                                <p className="text-sm text-on-surface-variant">Stone-fired thin crust with volcanic spicy pepperoni.</p>
+                            </div>
+                            <button className="mt-6 w-full border border-primary/20 hover:border-primary text-primary py-3 rounded-xl text-xs font-bold uppercase tracking-widest transition-colors">VIEW MENU</button>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        );
+
+        const Friends = () => (
+            <div className="pt-24 pb-32 px-6 max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8">
+                <div className="lg:col-span-5 flex flex-col gap-8">
+                    <section className="flex flex-col gap-2">
+                        <span className="font-headline font-bold text-secondary text-sm tracking-widest uppercase">Live Sync</span>
+                        <h2 className="text-4xl font-headline font-black tracking-tight leading-none uppercase">FRIEND FINDER</h2>
+                        <p className="text-on-surface-variant text-sm mt-2 max-w-sm">Locate your crew across the arena in real-time. Stay connected through the electric pulse.</p>
+                    </section>
+                    <button className="group relative w-full bg-gradient-to-br from-primary to-primary-container text-on-primary-container font-headline font-bold py-5 rounded-xl flex items-center justify-center gap-3 active:scale-[0.98] transition-all kinetic-glow overflow-hidden">
+                        <span className="material-symbols-outlined">share_location</span>
+                        <span className="tracking-wider uppercase">Share My Location</span>
+                        <div className="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700 skew-x-12"></div>
+                    </button>
+                    <div className="flex flex-col gap-4 overflow-y-auto max-h-[500px] pr-2">
+                        <h3 className="text-xs font-bold text-slate-500 uppercase tracking-[0.2em]">Crew (Active)</h3>
+                        <div className="bg-surface-container-low p-4 rounded-xl flex items-center justify-between group hover:bg-surface-container transition-colors relative overflow-hidden">
+                            <div className="absolute left-0 top-0 bottom-0 w-1 bg-secondary"></div>
+                            <div className="flex items-center gap-4">
+                                <div className="w-12 h-12 rounded-xl overflow-hidden relative">
+                                    <img alt="Friend" className="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAM2paBR8rsi9OTiWX-D_k6MDdxNUq6uKA2REonfK8LJbnsEKBLNw-jnum5tCHrveU1JIhUtzg4fXynjrUSID3Woy6OY0Q4ehcbyhb45fzbOuEOAVqiTeXYbjCcsRkzMefpioLtwjfOLsda5bhOdTvwQSuW9gRqOqz0eARGvZsxYtBzpKCbeETdEBT9LyD5yz7TbuoC7kXp7W3eUuMnz09KmDl0wg3j9RBi5lbxwGs9b5bt6Azf6TJVLFSPsd4NSKApMNazP6Ke1w" />
+                                    <div className="absolute bottom-0 right-0 w-3 h-3 bg-primary border-2 border-surface-container-low rounded-full"></div>
+                                </div>
+                                <div className="flex flex-col">
+                                    <span className="font-headline font-bold text-on-surface uppercase tracking-tight">MARCUS_FLYNN</span>
+                                    <span className="text-[10px] font-bold text-secondary tracking-widest uppercase">SECTION 102 • ROW 12</span>
+                                </div>
+                            </div>
+                            <button className="w-10 h-10 rounded-full flex items-center justify-center text-on-surface-variant hover:text-primary transition-colors">
+                                <span className="material-symbols-outlined">chat_bubble</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div className="lg:col-span-7 h-[500px] lg:h-auto min-h-[500px]">
+                    <div className="w-full h-full bg-surface-container rounded-[2rem] overflow-hidden relative border border-white/5 shadow-2xl">
+                        <div className="w-full h-full relative overflow-hidden grayscale contrast-[1.2]">
+                            <img alt="Stadium Map" className="w-full h-full object-cover opacity-30" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD6CJ_918hW2C2oMuewvyWggpexfZwlnGXagLRiwqsMHpZZHsKzqi_3-HdMeJzJnFGxhzCKXhjxwDV87oHLTE03Lw3rno7z5anK31WBZuv_TsQeeyz51sZVk5xrHFdVvXssPB1uxHttelKNtSQAw33HFX3c8EnO4KWvGIlhwaqgRcLHiZrlGggWyConP2EqvXeCBNqIrNZF29CEi10GeXkJFgvzSAgb8sZVPVRdg0ZCK_h67ED8PbMJFG5IrJNwkvPGZ9uwyIO83A" />
+                            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+                                <div className="relative w-16 h-16">
+                                    <div className="absolute inset-0 bg-primary/20 rounded-full animate-ping"></div>
+                                    <div className="absolute inset-[1.3rem] bg-primary rounded-full border-4 border-background shadow-lg shadow-primary/50"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        );
+
+        const App = () => {
+            return (
+                <MemoryRouter>
+                    <div className="min-h-screen bg-background">
+                        <Header />
+                        <Routes>
+                            <Route path="/" element={<Dashboard />} />
+                            <Route path="/map" element={<Map />} />
+                            <Route path="/concessions" element={<Concessions />} />
+                            <Route path="/friends" element={<Friends />} />
+                        </Routes>
+                        <BottomNav />
+                    </div>
+                </MemoryRouter>
+            );
+        };
+
+        const root = createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
