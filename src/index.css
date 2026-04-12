@@ -24,8 +24,6 @@
   }
 }
 
-/* Helper for No-Line Architecture from Source */
-.bg-surface-container-low { @apply bg-[#0d141b]; }
-.bg-surface-container { @apply bg-[#131a22]; }
-.bg-surface-container-high { @apply bg-[#182028]; }
-.bg-surface-container-highest { @apply bg-[#1e272f]; }
+@layer utilities {
+  /* No-Line Architecture Utilities - Handled by Tailwind Theme */
+}

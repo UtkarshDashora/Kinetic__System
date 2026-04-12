@@ -23,6 +23,10 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+// Serve static files from the 'dist' directory (frontend build)
+const distPath = join(__dirname, '..', 'dist');
+app.use(express.static(distPath));
+
 // Tactical Data (Source of Truth)
 const initialTacticalData = {
   alerts: {
@@ -87,7 +91,12 @@ app.post('/api/seed', async (req, res) => {
   }
 });
 
-const PORT = process.env.PORT || 5000;
+// Catch-all route to serve index.html for React Router
+app.get('*', (req, res) => {
+  res.sendFile(join(distPath, 'index.html'));
+});
+
+const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
   console.log(`Kinetic Stadium Backend running on port ${PORT}`);
 });

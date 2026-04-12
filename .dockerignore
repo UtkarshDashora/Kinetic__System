@@ -1,0 +1,11 @@
+node_modules
+npm-debug.log
+dist
+.git
+.gitignore
+.vscode
+Dockerfile
+.dockerignore
+server/node_modules
+README.md
+stitch
