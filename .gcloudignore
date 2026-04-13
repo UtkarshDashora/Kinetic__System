@@ -1,0 +1,29 @@
+# .gcloudignore
+# This file specifies files that should not be uploaded to Google Cloud Build
+# when running gcloud run deploy or gcloud builds submit.
+
+.gcloudignore
+.git
+.gitignore
+
+# Node.js artifacts
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Build artifacts
+dist/
+build/
+.next/
+
+# IDE files
+.vscode/
+.idea/
+.DS_Store
+
+# Stitch files (if not needed in build)
+stitch/
+
+# Docker files (Cloud Build uses its own context if using Dockerfile)
+Dockerfile
+.dockerignore
